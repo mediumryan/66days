@@ -1,0 +1,112 @@
+@import './reset.css';
+
+:root {
+    /* color */
+    --primary-100: #8b5fbf;
+    --primary-200: #61398f;
+    --accent-100: #d6c6e1;
+    --accent-200: #9a73b5;
+    --text-100: #4a4a4a;
+    --text-200: #878787;
+    --bg-100: #f5f3f7;
+    --bg-200: #e9e4ed;
+    --bg-300: #ffffff;
+
+    /* font-size */
+    --font-size-huge: 64px;
+    --font-size-large: 48px;
+    --font-size-medium-large: 36px;
+    --font-size-medium: 24px;
+    --font-size-small: 20px;
+    --font-size-micro: 16px;
+    /* margin */
+    --margin-huge: 64px;
+    --margin-very-large: 48px;
+    --margin-large: 36px;
+    --margin-medium-large: 24px;
+    --margin-medium: 12px;
+    --margin-small: 8px;
+    --margin-micro: 4px;
+    /* padding */
+    --padding-very-large: 48px;
+    --padding-large: 36px;
+    --padding-medium-large: 24px;
+    --padding-medium: 12px;
+    --padding-small: 8px;
+    --padding-micro: 4px;
+    --padding-double-large: 24px 48px;
+    --padding-double-medium: 12px 24px;
+    --padding-double-small: 8px 12px;
+}
+
+/* fonts */
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff')
+        format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'GmarketSansMedium';
+}
+/* Media query --- mobile */
+@media (min-width: 844px) and (min-height: 390px) {
+    :root {
+        /* font-size */
+        --font-size-huge: 32px;
+        --font-size-large: 24px;
+        --font-size-medium-large: 18px;
+        --font-size-medium: 12px;
+        --font-size-small: 10px;
+        --font-size-micro: 8px;
+        /* margin */
+        --margin-very-large: 24px;
+        --margin-large: 18px;
+        --margin-medium-large: 12px;
+        --margin-medium: 6px;
+        --margin-small: 4px;
+        --margin-micro: 2px;
+        /* padding */
+        --padding-very-large: 24px;
+        --padding-large: 18px;
+        --padding-medium-large: 12px;
+        --padding-medium: 6px;
+        --padding-small: 4px;
+        --padding-micro: 2px;
+        --padding-double-large: 12px 24px;
+        --padding-double-medium: 6px 12px;
+        --padding-double-small: 4px 6px;
+    }
+}
+/* Media query --- tablet */
+@media (min-width: 1180px) and (min-height: 820px) {
+    :root {
+        /* font-size */
+        --font-size-huge: 48px;
+        --font-size-large: 36px;
+        --font-size-medium-large: 27px;
+        --font-size-medium: 18px;
+        --font-size-small: 15px;
+        --font-size-micro: 12px;
+        /* margin */
+        --margin-very-large: 36px;
+        --margin-large: 27px;
+        --margin-medium-large: 18px;
+        --margin-medium: 9px;
+        --margin-small: 6px;
+        --margin-micro: 3px;
+        /* padding */
+        --padding-very-large: 36px;
+        --padding-large: 27px;
+        --padding-medium-large: 18px;
+        --padding-medium: 9px;
+        --padding-small: 6px;
+        --padding-micro: 3px;
+        --padding-double-large: 18px 36px;
+        --padding-double-medium: 9px 18px;
+        --padding-double-small: 6px 9px;
+    }
+}

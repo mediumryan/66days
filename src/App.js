@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { styled } from 'styled-components';
+import './CSS/index.css';
+import Title from './Components/Title/Title';
+import List from './Components/List/List';
+import Complete from './Components/CompleteFail/Complete';
+import Fail from './Components/CompleteFail/Fail';
+import Progress from './Components/Progress/Progress';
+
+const MainWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+`;
+
+export const TagName = styled.h3`
+    color: red;
+    font-size: var(--font-size-medium);
+`;
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <MainWrapper>
+            <TagName>Make habit this</TagName>
+            <Title />
+            <TagName>Progress</TagName>
+            <Progress />
+            <TagName>Check List</TagName>
+            <List />
+            <TagName>Complete</TagName>
+            <Complete />
+            <TagName>Fail</TagName>
+            <Fail />
+        </MainWrapper>
+    );
 }
 
 export default App;
