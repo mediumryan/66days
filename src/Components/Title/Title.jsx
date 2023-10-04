@@ -24,7 +24,7 @@ export const FormText = styled.div`
     justify-content: space-around;
     display: ${(props) => (props.isTitle ? 'flex' : 'none')};
     span {
-        font-size: var(--font-size-medium);
+        font-size: var(--font-size-small);
         color: var(--text-200);
     }
     button {
@@ -33,6 +33,7 @@ export const FormText = styled.div`
         right: 0;
         transform: translateY(-50%);
         font-size: var(--font-size-medium);
+        margin-left: var(--margin-medium);
         color: var(--primary-100);
         transition: 300ms all;
         &:hover {
@@ -86,7 +87,9 @@ export default function Title() {
                 </button>
             </FormText>
             <FormContents isTitle={isTitle}>
-                <input {...register('title', { required: true })} />
+                <input
+                    {...register('title', { required: true, maxLength: 25 })}
+                />
                 <button>
                     <FaPlus />
                 </button>

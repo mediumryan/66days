@@ -39,7 +39,9 @@ export default function Fail() {
                 </button>
             </CompleteText>
             <CompleteForm isFail={isFail}>
-                <input {...register('fail', { required: true })} />
+                <input
+                    {...register('fail', { required: true, maxLength: 25 })}
+                />
                 <button>
                     <FaPlus />
                 </button>

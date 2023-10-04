@@ -39,7 +39,9 @@ export default function Complete() {
                 </button>
             </CompleteText>
             <CompleteForm isComplete={isComplete}>
-                <input {...register('complete', { required: true })} />
+                <input
+                    {...register('complete', { required: true, maxLength: 25 })}
+                />
                 <button>
                     <FaPlus />
                 </button>
