@@ -10,6 +10,17 @@ export const FormWrapper = styled.form`
     justify-content: center;
 `;
 
+export const FormText = styled.div`
+    span {
+        font-size: var(--font-size-medium);
+        color: blue;
+    }
+    button {
+        font-size: var(--font-size-medium);
+        color: white;
+    }
+`;
+
 export const FormContents = styled.div`
     input {
     }
@@ -20,6 +31,10 @@ export const FormContents = styled.div`
 export default function Title() {
     return (
         <FormWrapper>
+            <FormText>
+                <span>Title</span>
+                <button>rename</button>
+            </FormText>
             <FormContents>
                 <input />
                 <button>submit</button>
