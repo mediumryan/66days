@@ -72,6 +72,13 @@ const StartEnd = styled.div`
 
 const Start = styled.div`
     margin: var(--margin-medium) 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    span:first-child {
+        margin-bottom: var(--margin-small);
+        color: var(--accent-200);
+    }
 `;
 
 const End = styled(Start)``;
@@ -99,7 +106,7 @@ export default function Progress() {
             <DateValue>
                 {isDate === false ? (
                     <form onSubmit={handleSubmit(getStartDate)}>
-                        <label>시작일 : </label>
+                        <label>Start : </label>
                         <input
                             type="date"
                             {...register('date', { required: true })}
@@ -113,11 +120,11 @@ export default function Progress() {
                 {isDate ? (
                     <StartEnd>
                         <Start>
-                            <span>시작일 : </span>
+                            <span>Start</span>
                             <span>{startDate}</span>
                         </Start>
                         <End>
-                            <span>종료일 : </span>
+                            <span>End</span>
                             <span>{endDate}</span>
                         </End>
                         <button

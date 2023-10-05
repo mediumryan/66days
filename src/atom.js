@@ -29,7 +29,7 @@ export const completeState = atom({
 
 export const completeCountState = atom({
     key: 'complete_count',
-    default: 60,
+    default: 0,
     effects_UNSTABLE: [persistAtom],
 });
 
@@ -50,6 +50,12 @@ export const failSubmitted = atom({
 export const failState = atom({
     key: 'fail_state',
     default: '',
+    effects_UNSTABLE: [persistAtom],
+});
+
+export const failCountState = atom({
+    key: 'fail_count',
+    default: 0,
     effects_UNSTABLE: [persistAtom],
 });
 
@@ -86,15 +92,19 @@ export const endDateState = selector({
         }
         return;
     },
-    effects_UNSTABLE: [persistAtom],
 });
 
 // list
-
 export const listState = atom({
     key: 'list_item',
     default: Array.from({ length: 66 }, (_, index) => ({
         id: index,
         value: index + 1 + '일차',
     })),
+    effects_UNSTABLE: [persistAtom],
+});
+// reset
+export const resetState = atom({
+    key: 'reset_state',
+    default: false,
 });

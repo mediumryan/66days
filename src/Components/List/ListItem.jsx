@@ -1,6 +1,13 @@
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
-import { startDateState, titleState } from '../../atom';
+import {
+    completeCountState,
+    dateSubmitted,
+    failCountState,
+    listState,
+    startDateState,
+    titleState,
+} from '../../atom';
 
 const ListItemContainer = styled.div`
     width: 100%;
@@ -40,26 +47,56 @@ const ListButton = styled.div`
 
 export default function ListItem({ item }) {
     const title = useRecoilValue(titleState);
-
+    // setting list date
     const startDate = useRecoilValue(startDateState);
-
-    const currentDate = new Date(startDate); // 문자열을 Date 객체로 변환
-
-    // 다음 날을 구하기 위해 현재 날짜를 가져와서 하루를 더합니다.
+    const currentDate = new Date(startDate);
     currentDate.setDate(currentDate.getDate() + item.id);
-
-    // 다음 날짜를 원하는 형식으로 포맷
     const listDate = currentDate.toLocaleDateString('ko-KR');
-
+    // handle complete
+    const setCompleteCount = useSetRecoilState(completeCountState);
+    const [list, setList] = useRecoilState(listState);
+    const handleComplete = (item) => {
+        const copy = [...list];
+        const newList = copy.filter((a) => a.id !== item.id);
+        setList(newList);
+        setCompleteCount((prev) => prev + 1);
+    };
+    // handle fail
+    const [failCount, setFailCount] = useRecoilState(failCountState);
+    const handleFail = () => {
+        if (failCount < 2) {
+            const copy = [...list];
+            const newList = copy.filter((a) => a.id !== item.id);
+            setList(newList);
+            setFailCount((prev) => prev + 1);
+        } else {
+            setList([]);
+            alert('project fail');
+        }
+    };
     return (
         <ListItemContainer>
             <ListTitle>
                 {title} {item.value}
             </ListTitle>
-            <ListDate>{listDate}</ListDate>
+            <ListDate>
+                {dateSubmitted === true ? listDate : 'Data is not found'}
+            </ListDate>
             <ListButton>
-                <button>Complete</button>
-                <button>Fail</button>
+                <button
+                    onClick={() => {
+                        handleComplete(item);
+                    }}
+                >
+                    Complete
+                </button>
+                <button
+                    onClick={() => {
+                        handleFail(item);
+                    }}
+                >
+                    Fail
+                </button>
             </ListButton>
         </ListItemContainer>
     );

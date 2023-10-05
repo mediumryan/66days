@@ -5,6 +5,9 @@ import List from './Components/List/List';
 import Complete from './Components/CompleteFail/Complete';
 import Fail from './Components/CompleteFail/Fail';
 import Progress from './Components/Progress/Progress';
+import { useRecoilValue } from 'recoil';
+import { completeCountState, failCountState } from './atom';
+import Reset from './Reset';
 
 const MainWrapper = styled.div`
     display: flex;
@@ -24,17 +27,21 @@ export const TagName = styled.h3`
 `;
 
 function App() {
+    const complete = useRecoilValue(completeCountState);
+    const fail = useRecoilValue(failCountState);
+
     return (
         <MainWrapper>
+            <Reset />
             <TagName>Make habit this</TagName>
             <Title />
             <TagName>Progress</TagName>
             <Progress />
             <TagName>Check List</TagName>
             <List />
-            <TagName>Complete</TagName>
+            <TagName>Complete ({complete})</TagName>
             <Complete />
-            <TagName>Fail</TagName>
+            <TagName>Fail ({fail})</TagName>
             <Fail />
         </MainWrapper>
     );
