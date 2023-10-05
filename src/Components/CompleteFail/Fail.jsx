@@ -7,6 +7,10 @@ import { FaPlus } from 'react-icons/fa';
 import { styled } from 'styled-components';
 import { failState, failSubmitted } from '../../atom';
 
+const FailWrapper = styled(FormWrapper)`
+    margin-bottom: var(--margin-large);
+`;
+
 const CompleteText = styled(FormText)`
     display: ${(props) => (props.isFail ? 'flex' : 'none')};
 `;
@@ -27,7 +31,7 @@ export default function Fail() {
     };
 
     return (
-        <FormWrapper onSubmit={handleSubmit(getValue)}>
+        <FailWrapper onSubmit={handleSubmit(getValue)}>
             <CompleteText isFail={isFail}>
                 <span>{fail}</span>
                 <button
@@ -46,6 +50,6 @@ export default function Fail() {
                     <FaPlus />
                 </button>
             </CompleteForm>
-        </FormWrapper>
+        </FailWrapper>
     );
 }

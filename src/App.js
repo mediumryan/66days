@@ -14,6 +14,7 @@ const MainWrapper = styled.div`
     padding: var(--padding-medium-large);
     background-color: var(--bg-100);
     color: var(--text-100);
+    overflow-y: scroll;
 `;
 
 export const TagName = styled.h3`

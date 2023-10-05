@@ -88,3 +88,13 @@ export const endDateState = selector({
     },
     effects_UNSTABLE: [persistAtom],
 });
+
+// list
+
+export const listState = atom({
+    key: 'list_item',
+    default: Array.from({ length: 66 }, (_, index) => ({
+        id: index,
+        value: index + 1 + '일차',
+    })),
+});

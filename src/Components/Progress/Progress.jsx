@@ -66,6 +66,7 @@ const StartEnd = styled.div`
         right: -50%;
         transform: translateY(-50%);
         font-size: var(--font-size-medium);
+        color: var(--primary-100);
     }
 `;
 
