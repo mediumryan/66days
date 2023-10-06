@@ -10,6 +10,7 @@ import { completeCountState, failCountState } from './atom';
 import Reset from './Reset';
 
 const MainWrapper = styled.div`
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;

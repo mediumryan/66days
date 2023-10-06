@@ -95,7 +95,7 @@ export default function Reset() {
     };
 
     return (
-        <div>
+        <>
             <ResetButton
                 onClick={() => {
                     setReset((prev) => !prev);
@@ -118,6 +118,6 @@ export default function Reset() {
                     </div>
                 </ResetModal>
             ) : null}
-        </div>
+        </>
     );
 }
