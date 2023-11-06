@@ -52,6 +52,7 @@ export default function ListItem({ item }) {
     const currentDate = new Date(startDate);
     currentDate.setDate(currentDate.getDate() + item.id);
     const listDate = currentDate.toLocaleDateString('ko-KR');
+    const isDate = useRecoilValue(dateSubmitted);
     // handle complete
     const setCompleteCount = useSetRecoilState(completeCountState);
     const [list, setList] = useRecoilState(listState);
@@ -74,13 +75,16 @@ export default function ListItem({ item }) {
             alert('project fail');
         }
     };
+
+    console.log(dateSubmitted);
+
     return (
         <ListItemContainer>
             <ListTitle>
                 {title} {item.value}
             </ListTitle>
             <ListDate>
-                {dateSubmitted === true ? listDate : 'Data is not found'}
+                {isDate === true ? listDate : 'Data is not found'}
             </ListDate>
             <ListButton>
                 <button
