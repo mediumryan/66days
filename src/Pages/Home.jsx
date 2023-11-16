@@ -1,5 +1,5 @@
-import React from 'react';
+import { PageWrapper } from './Habit1';
 
 export default function Home() {
-    return <div>Home</div>;
+    return <PageWrapper>Home</PageWrapper>;
 }

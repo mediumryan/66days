@@ -7,12 +7,14 @@ import Habit2 from './Pages/Habit2';
 import Habit3 from './Pages/Habit3';
 import Habit4 from './Pages/Habit4';
 import Habit5 from './Pages/Habit5';
+import Navigation from './Components/Navigation/Navigation';
 
 const MainContainer = styled.div``;
 
 function App() {
     return (
         <MainContainer>
+            <Navigation />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/habit1" element={<Habit1 />} />
