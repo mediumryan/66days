@@ -6,7 +6,7 @@ import {
     dateSubmitted,
     endDateState,
     startDateState,
-} from '../../atom';
+} from '../../data/habitData';
 import { useForm } from 'react-hook-form';
 import { FaPlus } from 'react-icons/fa';
 import { SlNote } from 'react-icons/sl';

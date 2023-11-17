@@ -6,7 +6,7 @@ import List from '../Components/List/List';
 import Complete from '../Components/CompleteFail/Complete';
 import Fail from '../Components/CompleteFail/Fail';
 import { useRecoilValue } from 'recoil';
-import { completeCountState, failCountState } from '../atom';
+import { completeCountState, failCountState } from '../data/habitData';
 
 export const PageWrapper = styled.div`
     position: relative;

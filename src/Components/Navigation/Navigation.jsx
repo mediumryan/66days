@@ -3,7 +3,7 @@ import { GiCat, GiChecklist } from 'react-icons/gi';
 import NavList from './NavList';
 import { Link } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { isMenuOn } from '../../atom';
+import { isMenuOn } from '../../data/atom';
 
 const NavWrapper = styled.nav`
     background-color: var(--bg-200);

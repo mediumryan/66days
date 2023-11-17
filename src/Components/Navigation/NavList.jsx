@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { styled } from 'styled-components';
-import { isMenuOn } from '../../atom';
+import { isMenuOn } from '../../data/atom';
 
 const ListWrapper = styled.div`
     width: 100%;

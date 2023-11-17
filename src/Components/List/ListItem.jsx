@@ -7,7 +7,7 @@ import {
     listState,
     startDateState,
     titleState,
-} from '../../atom';
+} from '../../data/habitData';
 
 const ListItemContainer = styled.div`
     width: 100%;

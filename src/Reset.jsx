@@ -14,7 +14,7 @@ import {
     startDateState,
     titleState,
     titleSubmitted,
-} from './atom';
+} from './data/habitData';
 
 const ResetButton = styled.button`
     position: absolute;

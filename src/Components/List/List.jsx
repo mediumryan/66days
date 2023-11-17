@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import ListItem from './ListItem';
 import { useRecoilValue } from 'recoil';
-import { listState } from '../../atom';
+import { listState } from '../../data/habitData';
 
 const ListWrapper = styled.div`
     width: 100%;

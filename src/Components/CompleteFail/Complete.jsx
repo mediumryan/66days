@@ -1,4 +1,4 @@
-import { completeState, completeSubmitted } from '../../atom';
+import { completeState, completeSubmitted } from '../../data/habitData';
 import { FormContents, FormText, FormWrapper } from '../Title/Title';
 import { useRecoilState } from 'recoil';
 import { useForm } from 'react-hook-form';

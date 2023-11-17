@@ -3,13 +3,6 @@ import { recoilPersist } from 'recoil-persist';
 
 const { persistAtom } = recoilPersist();
 
-// about navigation
-export const isMenuOn = atom({
-    key: 'nav_is_menu_on',
-    default: false,
-    effects_UNSTABLE: [persistAtom],
-});
-
 // about habit1
 export const titleSubmitted = atom({
     key: 'title_submitted',

@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { titleState, titleSubmitted } from '../../atom';
+import { titleState, titleSubmitted } from '../../data/habitData';
 import { useRecoilState } from 'recoil';
 import { useForm } from 'react-hook-form';
 // icons

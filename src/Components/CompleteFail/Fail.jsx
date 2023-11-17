@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { SlNote } from 'react-icons/sl';
 import { FaPlus } from 'react-icons/fa';
 import { styled } from 'styled-components';
-import { failState, failSubmitted } from '../../atom';
+import { failState, failSubmitted } from '../../data/habitData';
 
 const FailWrapper = styled(FormWrapper)`
     margin-bottom: var(--margin-large);
