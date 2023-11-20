@@ -15,27 +15,27 @@ export const titleState = atom({
     default: [
         {
             id: 0,
-            value: 'title1',
+            value: '',
             isActive: true,
         },
         {
             id: 1,
-            value: 'title2',
+            value: '',
             isActive: false,
         },
         {
             id: 2,
-            value: 'title3',
+            value: '',
             isActive: false,
         },
         {
             id: 3,
-            value: 'title4',
+            value: '',
             isActive: false,
         },
         {
             id: 4,
-            value: 'title5',
+            value: '',
             isActive: false,
         },
     ],

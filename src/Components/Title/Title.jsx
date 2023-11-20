@@ -86,7 +86,11 @@ export default function Title({ habitNumber }) {
                 isTitle={isTitle}
                 style={{ display: isTitle ? 'flex' : 'none' }}
             >
-                <span>{title[habitNumber].value}</span>
+                <span>
+                    {title[habitNumber].value === ''
+                        ? 'Empty'
+                        : title[habitNumber].value}
+                </span>
                 <button
                     onClick={() => {
                         setIsTitle(false);

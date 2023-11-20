@@ -10,34 +10,18 @@ const ListWrapper = styled.div`
     margin-top: 2rem;
     ul {
         width: 100%;
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        grid-template-rows: repeat(2, 1fr);
-        grid-gap: 0.5rem;
+        display: flex;
+        flex-direction: column;
         li {
             text-align: center;
             padding: 0.75rem 1rem;
             background-color: var(--primary-200);
             border-radius: 12px;
+            margin-bottom: 0.5rem;
             a {
                 color: var(--accent-100);
                 display: block;
                 text-decoration: none;
-            }
-            &:first-child {
-                grid-area: 1 / 1 / 2 / 3;
-            }
-            &:nth-child(2) {
-                grid-area: 1 / 3 / 2 / 5;
-            }
-            &:nth-child(3) {
-                grid-area: 1 / 5 / 2 / 7;
-            }
-            &:nth-child(4) {
-                grid-area: 2 / 1 / 3 / 4;
-            }
-            &:nth-child(5) {
-                grid-area: 2 / 4 / 3 / 7;
             }
         }
     }
@@ -53,7 +37,9 @@ export default function NavList() {
                 {titleArr.map((item) => {
                     return (
                         <li key={item.id}>
-                            <Link to={`/habit/${item.id}`}>{item.value}</Link>
+                            <Link to={`/habit/${item.id}`}>
+                                {item.value === '' ? 'Empty' : item.value}
+                            </Link>
                         </li>
                     );
                 })}
