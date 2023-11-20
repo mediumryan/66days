@@ -79,17 +79,11 @@ export const completeState = atom({
     effects_UNSTABLE: [persistAtom],
 });
 
-export const completeCountState = atom({
-    key: 'complete_count',
-    default: [0],
-    effects_UNSTABLE: [persistAtom],
-});
-
 export const completePercentState = selector({
     key: 'complete_percent',
     get: ({ get }) => {
-        const complete_count = get(completeCountState);
-        return [Math.floor((complete_count / 66) * 100)];
+        const complete = get(completeState);
+        return [Math.floor((complete[0] / 66) * 100)];
     },
 });
 
@@ -140,36 +134,30 @@ export const failCountState = atom({
 export const listState = atom({
     key: 'list_item',
     default: [
-        [
-            Array.from({ length: 66 }, (_, index) => ({
-                id: index,
-                value: index + 1 + '일차',
-            })),
-        ],
-        [
-            Array.from({ length: 66 }, (_, index) => ({
-                id: index,
-                value: index + 1 + '일차',
-            })),
-        ],
-        [
-            Array.from({ length: 66 }, (_, index) => ({
-                id: index,
-                value: index + 1 + '일차',
-            })),
-        ],
-        [
-            Array.from({ length: 66 }, (_, index) => ({
-                id: index,
-                value: index + 1 + '일차',
-            })),
-        ],
-        [
-            Array.from({ length: 66 }, (_, index) => ({
-                id: index,
-                value: index + 1 + '일차',
-            })),
-        ],
+        Array.from({ length: 66 }, (_, index) => ({
+            id: index,
+            value: index + 1 + '일차',
+        })),
+
+        Array.from({ length: 66 }, (_, index) => ({
+            id: index,
+            value: index + 1 + '일차',
+        })),
+
+        Array.from({ length: 66 }, (_, index) => ({
+            id: index,
+            value: index + 1 + '일차',
+        })),
+
+        Array.from({ length: 66 }, (_, index) => ({
+            id: index,
+            value: index + 1 + '일차',
+        })),
+
+        Array.from({ length: 66 }, (_, index) => ({
+            id: index,
+            value: index + 1 + '일차',
+        })),
     ],
     effects_UNSTABLE: [persistAtom],
 });

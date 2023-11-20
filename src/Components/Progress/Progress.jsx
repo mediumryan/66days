@@ -1,7 +1,6 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { styled } from 'styled-components';
 import {
-    completeCountState,
     completePercentState,
     dateSubmitted,
     endDateState,
@@ -84,7 +83,6 @@ const Start = styled.div`
 const End = styled(Start)``;
 
 export default function Progress() {
-    const completeCount = useRecoilValue(completeCountState);
     const completePercent = useRecoilValue(completePercentState);
 
     const [isDate, setIsDate] = useRecoilState(dateSubmitted);
@@ -99,7 +97,7 @@ export default function Progress() {
     return (
         <ProgressWrapper>
             <Per>{completePercent}%</Per>
-            <CompleteCount>{completeCount}/66</CompleteCount>
+            <CompleteCount>66</CompleteCount>
             <ProgressBarBack>
                 <ProgressBar per={completePercent} />
             </ProgressBarBack>

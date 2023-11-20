@@ -13,9 +13,11 @@ const ListWrapper = styled.div`
 export default function List({ habitNumber }) {
     const list = useRecoilValue(listState);
 
+    console.log(list);
+
     return (
         <ListWrapper>
-            {list[0][habitNumber].slice(0, 4).map((item) => {
+            {list[habitNumber].slice(0, 4).map((item) => {
                 return (
                     <ListItem
                         key={item.id}

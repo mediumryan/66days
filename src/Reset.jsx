@@ -2,7 +2,6 @@ import { styled } from 'styled-components';
 // 상태 초기화
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import {
-    completeCountState,
     completeState,
     dateSubmitted,
     failCountState,
@@ -65,7 +64,6 @@ export default function Reset() {
     // persist list
     const resetTitle = useResetRecoilState(titleState);
     const resetComplete = useResetRecoilState(completeState);
-    const resetCompleteCount = useResetRecoilState(completeCountState);
     const resetFail = useResetRecoilState(failState);
     const resetFailCount = useResetRecoilState(failCountState);
     const resetStartDate = useResetRecoilState(startDateState);
@@ -77,7 +75,6 @@ export default function Reset() {
         // 저장된 상태 초기화
         resetTitle();
         resetComplete();
-        resetCompleteCount();
         resetFail();
         resetFailCount();
         resetStartDate();

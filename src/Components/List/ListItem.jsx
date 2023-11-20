@@ -1,7 +1,6 @@
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 import {
-    completeCountState,
     dateSubmitted,
     failCountState,
     listState,
@@ -54,13 +53,11 @@ export default function ListItem({ item, habitNumber }) {
     const listDate = currentDate.toLocaleDateString('ko-KR');
     const isDate = useRecoilValue(dateSubmitted);
     // handle complete
-    const setCompleteCount = useSetRecoilState(completeCountState);
     const [list, setList] = useRecoilState(listState);
     const handleComplete = (item) => {
         const copy = [...list];
         const newList = copy.filter((a) => a.id !== item.id);
         setList(newList);
-        setCompleteCount((prev) => prev + 1);
     };
     // handle fail
     const [failCount, setFailCount] = useRecoilState(failCountState);
@@ -79,7 +76,9 @@ export default function ListItem({ item, habitNumber }) {
     return (
         <ListItemContainer>
             <ListTitle>
-                {title[habitNumber].value} {item.value}
+                {title[habitNumber].value !== ''
+                    ? `${title[habitNumber].value} ${item.value}`
+                    : 'Title is not defined'}
             </ListTitle>
             <ListDate>
                 {isDate === true ? listDate : 'Data is not found'}
