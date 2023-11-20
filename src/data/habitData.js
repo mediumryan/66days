@@ -36,20 +36,46 @@ export const titleState = atom({
             id: 4,
             value: '',
             isActive: false,
+            submitted: false,
         },
     ],
     effects_UNSTABLE: [persistAtom],
 });
 
-export const completeSubmitted = atom({
-    key: 'complete_submitted',
-    default: [false],
-    effects_UNSTABLE: [persistAtom],
-});
-
 export const completeState = atom({
     key: 'complete_state',
-    default: [''],
+    default: [
+        {
+            id: 0,
+            value: '',
+            submitted: false,
+            count: 0,
+        },
+        {
+            id: 1,
+            value: '',
+            submitted: false,
+            count: 0,
+        },
+        {
+            id: 2,
+            value: '',
+            submitted: false,
+            count: 0,
+        },
+        {
+            id: 3,
+            value: '',
+            submitted: false,
+            count: 0,
+        },
+        {
+            id: 4,
+            value: '',
+            isActive: false,
+            count: 0,
+        },
+    ],
     effects_UNSTABLE: [persistAtom],
 });
 
@@ -67,15 +93,40 @@ export const completePercentState = selector({
     },
 });
 
-export const failSubmitted = atom({
-    key: 'fail_submitted',
-    default: [false],
-    effects_UNSTABLE: [persistAtom],
-});
-
 export const failState = atom({
     key: 'fail_state',
-    default: [''],
+    default: [
+        {
+            id: 0,
+            value: '',
+            submitted: false,
+            count: 0,
+        },
+        {
+            id: 1,
+            value: '',
+            submitted: false,
+            count: 0,
+        },
+        {
+            id: 2,
+            value: '',
+            submitted: false,
+            count: 0,
+        },
+        {
+            id: 3,
+            value: '',
+            submitted: false,
+            count: 0,
+        },
+        {
+            id: 4,
+            value: '',
+            isActive: false,
+            count: 0,
+        },
+    ],
     effects_UNSTABLE: [persistAtom],
 });
 
@@ -124,10 +175,36 @@ export const endDateState = selector({
 export const listState = atom({
     key: 'list_item',
     default: [
-        Array.from({ length: 66 }, (_, index) => ({
-            id: index,
-            value: index + 1 + '일차',
-        })),
+        [
+            Array.from({ length: 66 }, (_, index) => ({
+                id: index,
+                value: index + 1 + '일차',
+            })),
+        ],
+        [
+            Array.from({ length: 66 }, (_, index) => ({
+                id: index,
+                value: index + 1 + '일차',
+            })),
+        ],
+        [
+            Array.from({ length: 66 }, (_, index) => ({
+                id: index,
+                value: index + 1 + '일차',
+            })),
+        ],
+        [
+            Array.from({ length: 66 }, (_, index) => ({
+                id: index,
+                value: index + 1 + '일차',
+            })),
+        ],
+        [
+            Array.from({ length: 66 }, (_, index) => ({
+                id: index,
+                value: index + 1 + '일차',
+            })),
+        ],
     ],
     effects_UNSTABLE: [persistAtom],
 });

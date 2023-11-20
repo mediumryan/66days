@@ -29,10 +29,8 @@ export const TagName = styled.h3`
 
 export default function Habit() {
     const { id } = useParams();
-    const complete = useRecoilValue(completeCountState);
-    const fail = useRecoilValue(failCountState);
-
-    console.log(id);
+    const completeCnt = useRecoilValue(completeCountState);
+    const failCnt = useRecoilValue(failCountState);
 
     return (
         <PageWrapper>
@@ -43,9 +41,9 @@ export default function Habit() {
             <Progress habitNumber={id} />
             <TagName>Check List</TagName>
             <List habitNumber={id} />
-            <TagName>Complete ({complete})</TagName>
+            <TagName>Complete ({completeCnt})</TagName>
             <Complete habitNumber={id} />
-            <TagName>Fail ({fail})</TagName>
+            <TagName>Fail ({failCnt})</TagName>
             <Fail habitNumber={id} />
         </PageWrapper>
     );

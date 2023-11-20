@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { SlNote } from 'react-icons/sl';
 import { FaPlus } from 'react-icons/fa';
 import { styled } from 'styled-components';
-import { failState, failSubmitted } from '../../data/habitData';
+import { failState } from '../../data/habitData';
 
 const FailWrapper = styled(FormWrapper)`
     margin-bottom: var(--margin-large);
@@ -15,35 +15,48 @@ const CompleteText = styled(FormText)``;
 
 const CompleteForm = styled(FormContents)``;
 
-export default function Fail() {
-    const [isFail, setIsFail] = useRecoilState(failSubmitted);
+export default function Fail({ habitNumber }) {
     const { register, handleSubmit, setValue } = useForm();
     const [fail, setFail] = useRecoilState(failState);
 
     const getValue = (data) => {
-        setFail(data.fail);
+        setFail((prev) => {
+            const newFail = prev.map((item) => {
+                return { ...item };
+            });
+            newFail[habitNumber].value = data.fail;
+            newFail[habitNumber].submitted = true;
+            return newFail;
+        });
         setValue('fail', '');
-        setIsFail(true);
     };
 
     return (
         <FailWrapper onSubmit={handleSubmit(getValue)}>
             <CompleteText
-                isFail={isFail}
-                style={{ display: isFail ? 'flex' : 'none' }}
+                style={{
+                    display: fail[habitNumber].submitted ? 'flex' : 'none',
+                }}
             >
-                <span>{fail}</span>
+                <span>{fail[habitNumber].value}</span>
                 <button
                     onClick={() => {
-                        setIsFail(false);
+                        setFail((prev) => {
+                            const newFail = prev.map((item) => {
+                                return { ...item };
+                            });
+                            newFail[habitNumber].submitted = false;
+                            return newFail;
+                        });
                     }}
                 >
                     <SlNote />
                 </button>
             </CompleteText>
             <CompleteForm
-                isFail={isFail}
-                style={{ display: isFail ? 'none' : 'flex' }}
+                style={{
+                    display: fail[habitNumber].submitted ? 'none' : 'flex',
+                }}
             >
                 <input
                     {...register('fail', { required: true, maxLength: 25 })}

@@ -10,13 +10,21 @@ const ListWrapper = styled.div`
     border-radius: 20px;
 `;
 
-export default function List() {
+export default function List({ habitNumber }) {
     const list = useRecoilValue(listState);
+
+    console.log(list);
 
     return (
         <ListWrapper>
-            {list.slice(0, 4).map((item) => {
-                return <ListItem key={item.id} item={item} />;
+            {list[habitNumber].slice(0, 4).map((item) => {
+                return (
+                    <ListItem
+                        key={item.id}
+                        item={item}
+                        habitNumber={habitNumber}
+                    />
+                );
             })}
         </ListWrapper>
     );

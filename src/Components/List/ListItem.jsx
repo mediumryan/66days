@@ -45,7 +45,7 @@ const ListButton = styled.div`
     }
 `;
 
-export default function ListItem({ item }) {
+export default function ListItem({ item, habitNumber }) {
     const title = useRecoilValue(titleState);
     // setting list date
     const startDate = useRecoilValue(startDateState);
@@ -76,12 +76,10 @@ export default function ListItem({ item }) {
         }
     };
 
-    console.log(dateSubmitted);
-
     return (
         <ListItemContainer>
             <ListTitle>
-                {title[0].value} {item.value}
+                {title[habitNumber].value} {item.value}
             </ListTitle>
             <ListDate>
                 {isDate === true ? listDate : 'Data is not found'}

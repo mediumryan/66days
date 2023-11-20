@@ -1,4 +1,4 @@
-import { completeState, completeSubmitted } from '../../data/habitData';
+import { completeState } from '../../data/habitData';
 import { FormContents, FormText, FormWrapper } from '../Title/Title';
 import { useRecoilState } from 'recoil';
 import { useForm } from 'react-hook-form';
@@ -11,35 +11,48 @@ const CompleteText = styled(FormText)``;
 
 const CompleteForm = styled(FormContents)``;
 
-export default function Complete() {
-    const [isComplete, setIsComplete] = useRecoilState(completeSubmitted);
+export default function Complete({ habitNumber }) {
     const { register, handleSubmit, setValue } = useForm();
     const [complete, setComplete] = useRecoilState(completeState);
 
     const getValue = (data) => {
-        setComplete(data.complete);
+        setComplete((prev) => {
+            const newComplete = prev.map((item) => {
+                return { ...item };
+            });
+            newComplete[habitNumber].value = data.complete;
+            newComplete[habitNumber].submitted = true;
+            return newComplete;
+        });
         setValue('complete', '');
-        setIsComplete(true);
     };
 
     return (
         <FormWrapper onSubmit={handleSubmit(getValue)}>
             <CompleteText
-                isComplete={isComplete}
-                style={{ display: isComplete ? 'flex' : 'none' }}
+                style={{
+                    display: complete[habitNumber].submitted ? 'flex' : 'none',
+                }}
             >
-                <span>{complete}</span>
+                <span>{complete[habitNumber].value}</span>
                 <button
                     onClick={() => {
-                        setIsComplete(false);
+                        setComplete((prev) => {
+                            const newComplete = prev.map((item) => {
+                                return { ...item };
+                            });
+                            newComplete[habitNumber].submitted = false;
+                            return newComplete;
+                        });
                     }}
                 >
                     <SlNote />
                 </button>
             </CompleteText>
             <CompleteForm
-                isComplete={isComplete}
-                style={{ display: isComplete ? 'none' : 'flex' }}
+                style={{
+                    display: complete[habitNumber].submitted ? 'none' : 'flex',
+                }}
             >
                 <input
                     {...register('complete', { required: true, maxLength: 25 })}
