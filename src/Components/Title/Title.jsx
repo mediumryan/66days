@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { titleState, titleSubmitted } from '../../data/habitData';
+import { titleState } from '../../data/habitData';
 import { useRecoilState } from 'recoil';
 import { useForm } from 'react-hook-form';
 // icons
@@ -62,7 +62,6 @@ export const FormContents = styled.div`
 `;
 
 export default function Title({ habitNumber }) {
-    const [isTitle, setIsTitle] = useRecoilState(titleSubmitted);
     const { register, handleSubmit, setValue } = useForm();
     const [title, setTitle] = useRecoilState(titleState);
 
@@ -72,19 +71,19 @@ export default function Title({ habitNumber }) {
                 return { ...item };
             });
             newTitle[habitNumber].value = data.title;
+            newTitle[habitNumber].submitted = true;
             return newTitle;
         });
         setValue('title', '');
-        setIsTitle(true);
     };
-
-    console.log(title);
 
     return (
         <FormWrapper onSubmit={handleSubmit(getValue)}>
             <FormText
-                isTitle={isTitle}
-                style={{ display: isTitle ? 'flex' : 'none' }}
+                isTitle={title[habitNumber].submitted}
+                style={{
+                    display: title[habitNumber].submitted ? 'flex' : 'none',
+                }}
             >
                 <span>
                     {title[habitNumber].value === ''
@@ -93,15 +92,23 @@ export default function Title({ habitNumber }) {
                 </span>
                 <button
                     onClick={() => {
-                        setIsTitle(false);
+                        setTitle((prev) => {
+                            const newTitle = prev.map((item) => {
+                                return { ...item };
+                            });
+                            newTitle[habitNumber].submitted = false;
+                            return newTitle;
+                        });
                     }}
                 >
                     <SlNote />
                 </button>
             </FormText>
             <FormContents
-                isTitle={isTitle}
-                style={{ display: isTitle ? 'none' : 'flex' }}
+                isTitle={title[habitNumber].submitted}
+                style={{
+                    display: title[habitNumber].submitted ? 'none' : 'flex',
+                }}
             >
                 <input
                     {...register('title', { required: true, maxLength: 25 })}

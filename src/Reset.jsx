@@ -13,7 +13,6 @@ import {
     resetState,
     startDateState,
     titleState,
-    titleSubmitted,
 } from './data/habitData';
 
 const ResetButton = styled.button`
@@ -67,7 +66,6 @@ export default function Reset() {
     const [reset, setReset] = useRecoilState(resetState);
     // persist list
     const resetTitle = useResetRecoilState(titleState);
-    const resetTitleSubmitted = useResetRecoilState(titleSubmitted);
     const resetComplete = useResetRecoilState(completeState);
     const resetCompleteSubmitted = useResetRecoilState(completeSubmitted);
     const resetCompleteCount = useResetRecoilState(completeCountState);
@@ -82,7 +80,6 @@ export default function Reset() {
         setReset((prev) => !prev);
         // 저장된 상태 초기화
         resetTitle();
-        resetTitleSubmitted();
         resetComplete();
         resetCompleteSubmitted();
         resetCompleteCount();

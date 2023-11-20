@@ -3,12 +3,7 @@ import { recoilPersist } from 'recoil-persist';
 
 const { persistAtom } = recoilPersist();
 
-// about habit1
-export const titleSubmitted = atom({
-    key: 'title_submitted',
-    default: [false, false, false, false, false],
-    effects_UNSTABLE: [persistAtom],
-});
+// about habit
 
 export const titleState = atom({
     key: 'title_state',
@@ -17,21 +12,25 @@ export const titleState = atom({
             id: 0,
             value: '',
             isActive: true,
+            submitted: false,
         },
         {
             id: 1,
             value: '',
             isActive: false,
+            submitted: false,
         },
         {
             id: 2,
             value: '',
             isActive: false,
+            submitted: false,
         },
         {
             id: 3,
             value: '',
             isActive: false,
+            submitted: false,
         },
         {
             id: 4,
