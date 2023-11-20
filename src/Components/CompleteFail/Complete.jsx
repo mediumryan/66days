@@ -7,13 +7,9 @@ import { SlNote } from 'react-icons/sl';
 import { FaPlus } from 'react-icons/fa';
 import { styled } from 'styled-components';
 
-const CompleteText = styled(FormText)`
-    display: ${(props) => (props.isComplete ? 'flex' : 'none')};
-`;
+const CompleteText = styled(FormText)``;
 
-const CompleteForm = styled(FormContents)`
-    display: ${(props) => (props.isComplete ? 'none' : 'flex')};
-`;
+const CompleteForm = styled(FormContents)``;
 
 export default function Complete() {
     const [isComplete, setIsComplete] = useRecoilState(completeSubmitted);
@@ -28,7 +24,10 @@ export default function Complete() {
 
     return (
         <FormWrapper onSubmit={handleSubmit(getValue)}>
-            <CompleteText isComplete={isComplete}>
+            <CompleteText
+                isComplete={isComplete}
+                style={{ display: isComplete ? 'flex' : 'none' }}
+            >
                 <span>{complete}</span>
                 <button
                     onClick={() => {
@@ -38,7 +37,10 @@ export default function Complete() {
                     <SlNote />
                 </button>
             </CompleteText>
-            <CompleteForm isComplete={isComplete}>
+            <CompleteForm
+                isComplete={isComplete}
+                style={{ display: isComplete ? 'none' : 'flex' }}
+            >
                 <input
                     {...register('complete', { required: true, maxLength: 25 })}
                 />

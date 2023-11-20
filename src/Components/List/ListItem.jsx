@@ -81,7 +81,7 @@ export default function ListItem({ item }) {
     return (
         <ListItemContainer>
             <ListTitle>
-                {title} {item.value}
+                {title[0].value} {item.value}
             </ListTitle>
             <ListDate>
                 {isDate === true ? listDate : 'Data is not found'}

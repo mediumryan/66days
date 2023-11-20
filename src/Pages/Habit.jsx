@@ -7,6 +7,7 @@ import Complete from '../Components/CompleteFail/Complete';
 import Fail from '../Components/CompleteFail/Fail';
 import { useRecoilValue } from 'recoil';
 import { completeCountState, failCountState } from '../data/habitData';
+import { useParams } from 'react-router-dom';
 
 export const PageWrapper = styled.div`
     position: relative;
@@ -26,23 +27,26 @@ export const TagName = styled.h3`
     margin: var(--margin-medium) 0;
 `;
 
-export default function Habit1() {
+export default function Habit() {
+    const { id } = useParams();
     const complete = useRecoilValue(completeCountState);
     const fail = useRecoilValue(failCountState);
 
+    console.log(id);
+
     return (
         <PageWrapper>
-            <Reset />
+            <Reset habitNumber={id} />
             <TagName>Habit</TagName>
-            <Title />
+            <Title habitNumber={id} />
             <TagName>Progress</TagName>
-            <Progress />
+            <Progress habitNumber={id} />
             <TagName>Check List</TagName>
-            <List />
+            <List habitNumber={id} />
             <TagName>Complete ({complete})</TagName>
-            <Complete />
+            <Complete habitNumber={id} />
             <TagName>Fail ({fail})</TagName>
-            <Fail />
+            <Fail habitNumber={id} />
         </PageWrapper>
     );
 }

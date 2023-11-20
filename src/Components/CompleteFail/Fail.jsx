@@ -11,13 +11,9 @@ const FailWrapper = styled(FormWrapper)`
     margin-bottom: var(--margin-large);
 `;
 
-const CompleteText = styled(FormText)`
-    display: ${(props) => (props.isFail ? 'flex' : 'none')};
-`;
+const CompleteText = styled(FormText)``;
 
-const CompleteForm = styled(FormContents)`
-    display: ${(props) => (props.isFail ? 'none' : 'flex')};
-`;
+const CompleteForm = styled(FormContents)``;
 
 export default function Fail() {
     const [isFail, setIsFail] = useRecoilState(failSubmitted);
@@ -32,7 +28,10 @@ export default function Fail() {
 
     return (
         <FailWrapper onSubmit={handleSubmit(getValue)}>
-            <CompleteText isFail={isFail}>
+            <CompleteText
+                isFail={isFail}
+                style={{ display: isFail ? 'flex' : 'none' }}
+            >
                 <span>{fail}</span>
                 <button
                     onClick={() => {
@@ -42,7 +41,10 @@ export default function Fail() {
                     <SlNote />
                 </button>
             </CompleteText>
-            <CompleteForm isFail={isFail}>
+            <CompleteForm
+                isFail={isFail}
+                style={{ display: isFail ? 'none' : 'flex' }}
+            >
                 <input
                     {...register('fail', { required: true, maxLength: 25 })}
                 />

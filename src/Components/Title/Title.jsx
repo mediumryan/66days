@@ -22,7 +22,6 @@ export const FormText = styled.div`
     width: 100%;
     align-items: center;
     justify-content: space-around;
-    display: ${(props) => (props.isTitle ? 'flex' : 'none')};
     span {
         font-size: var(--font-size-small);
         color: var(--text-200);
@@ -43,7 +42,6 @@ export const FormText = styled.div`
 `;
 
 export const FormContents = styled.div`
-    display: ${(props) => (props.isTitle ? 'none' : 'flex')};
     align-items: center;
     input {
         padding: var(--padding-double-small);
@@ -63,21 +61,32 @@ export const FormContents = styled.div`
     }
 `;
 
-export default function Title() {
+export default function Title({ habitNumber }) {
     const [isTitle, setIsTitle] = useRecoilState(titleSubmitted);
     const { register, handleSubmit, setValue } = useForm();
     const [title, setTitle] = useRecoilState(titleState);
 
     const getValue = (data) => {
-        setTitle(data.title);
+        setTitle((prev) => {
+            const newTitle = prev.map((item) => {
+                return { ...item };
+            });
+            newTitle[habitNumber].value = data.title;
+            return newTitle;
+        });
         setValue('title', '');
         setIsTitle(true);
     };
 
+    console.log(title);
+
     return (
         <FormWrapper onSubmit={handleSubmit(getValue)}>
-            <FormText isTitle={isTitle}>
-                <span>{title}</span>
+            <FormText
+                isTitle={isTitle}
+                style={{ display: isTitle ? 'flex' : 'none' }}
+            >
+                <span>{title[habitNumber].value}</span>
                 <button
                     onClick={() => {
                         setIsTitle(false);
@@ -86,7 +95,10 @@ export default function Title() {
                     <SlNote />
                 </button>
             </FormText>
-            <FormContents isTitle={isTitle}>
+            <FormContents
+                isTitle={isTitle}
+                style={{ display: isTitle ? 'none' : 'flex' }}
+            >
                 <input
                     {...register('title', { required: true, maxLength: 25 })}
                 />

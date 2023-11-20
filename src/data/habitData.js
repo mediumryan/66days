@@ -6,31 +6,57 @@ const { persistAtom } = recoilPersist();
 // about habit1
 export const titleSubmitted = atom({
     key: 'title_submitted',
-    default: false,
+    default: [false, false, false, false, false],
     effects_UNSTABLE: [persistAtom],
 });
 
 export const titleState = atom({
     key: 'title_state',
-    default: '',
+    default: [
+        {
+            id: 0,
+            value: 'title1',
+            isActive: true,
+        },
+        {
+            id: 1,
+            value: 'title2',
+            isActive: false,
+        },
+        {
+            id: 2,
+            value: 'title3',
+            isActive: false,
+        },
+        {
+            id: 3,
+            value: 'title4',
+            isActive: false,
+        },
+        {
+            id: 4,
+            value: 'title5',
+            isActive: false,
+        },
+    ],
     effects_UNSTABLE: [persistAtom],
 });
 
 export const completeSubmitted = atom({
     key: 'complete_submitted',
-    default: false,
+    default: [false],
     effects_UNSTABLE: [persistAtom],
 });
 
 export const completeState = atom({
     key: 'complete_state',
-    default: '',
+    default: [''],
     effects_UNSTABLE: [persistAtom],
 });
 
 export const completeCountState = atom({
     key: 'complete_count',
-    default: 0,
+    default: [0],
     effects_UNSTABLE: [persistAtom],
 });
 
@@ -38,25 +64,25 @@ export const completePercentState = selector({
     key: 'complete_percent',
     get: ({ get }) => {
         const complete_count = get(completeCountState);
-        return Math.floor((complete_count / 66) * 100);
+        return [Math.floor((complete_count / 66) * 100)];
     },
 });
 
 export const failSubmitted = atom({
     key: 'fail_submitted',
-    default: false,
+    default: [false],
     effects_UNSTABLE: [persistAtom],
 });
 
 export const failState = atom({
     key: 'fail_state',
-    default: '',
+    default: [''],
     effects_UNSTABLE: [persistAtom],
 });
 
 export const failCountState = atom({
     key: 'fail_count',
-    default: 0,
+    default: [0],
     effects_UNSTABLE: [persistAtom],
 });
 
@@ -64,13 +90,13 @@ export const failCountState = atom({
 
 export const dateSubmitted = atom({
     key: 'date_submitted',
-    default: false,
+    default: [false],
     effects_UNSTABLE: [persistAtom],
 });
 
 export const startDateState = atom({
     key: 'start_date',
-    default: '',
+    default: [''],
     effects_UNSTABLE: [persistAtom],
 });
 
@@ -89,7 +115,7 @@ export const endDateState = selector({
             const day = newDate.getDate().toString().padStart(2, '0'); // 일도 2자리로 포맷
 
             const resultDateStr = `${year}-${month}-${day}`;
-            return resultDateStr;
+            return [resultDateStr];
         }
         return;
     },
@@ -98,10 +124,12 @@ export const endDateState = selector({
 // list
 export const listState = atom({
     key: 'list_item',
-    default: Array.from({ length: 66 }, (_, index) => ({
-        id: index,
-        value: index + 1 + '일차',
-    })),
+    default: [
+        Array.from({ length: 66 }, (_, index) => ({
+            id: index,
+            value: index + 1 + '일차',
+        })),
+    ],
     effects_UNSTABLE: [persistAtom],
 });
 // reset

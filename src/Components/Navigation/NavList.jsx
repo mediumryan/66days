@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { styled } from 'styled-components';
 import { isMenuOn } from '../../data/atom';
+import { titleState } from '../../data/habitData';
 
 const ListWrapper = styled.div`
     width: 100%;
@@ -44,25 +45,18 @@ const ListWrapper = styled.div`
 
 export default function NavList() {
     const menuOn = useRecoilValue(isMenuOn);
+    const titleArr = useRecoilValue(titleState);
 
     return (
         <ListWrapper style={{ display: menuOn ? 'block' : 'none' }}>
             <ul>
-                <li>
-                    <Link to="/habit1">Habit1</Link>
-                </li>
-                <li>
-                    <Link to="/habit2">Habit2</Link>
-                </li>
-                <li>
-                    <Link to="/habit3">Habit3</Link>
-                </li>
-                <li>
-                    <Link to="/habit4">Habit4</Link>
-                </li>
-                <li>
-                    <Link to="/habit5">Habit5</Link>
-                </li>
+                {titleArr.map((item) => {
+                    return (
+                        <li key={item.id}>
+                            <Link to={`/habit/${item.id}`}>{item.value}</Link>
+                        </li>
+                    );
+                })}
             </ul>
         </ListWrapper>
     );
