@@ -15,13 +15,18 @@ const ListWrapper = styled.div`
         li {
             text-align: center;
             padding: 0.75rem 1rem;
-            background-color: var(--primary-200);
             border-radius: 12px;
             margin-bottom: 0.5rem;
             a {
                 color: var(--accent-100);
                 display: block;
                 text-decoration: none;
+            }
+            &:nth-child(odd) {
+                background-color: var(--primary-200);
+            }
+            &:nth-child(even) {
+                background-color: var(--primary-100);
             }
         }
     }
