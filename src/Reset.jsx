@@ -3,11 +3,9 @@ import { styled } from 'styled-components';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import {
     completeState,
-    dateSubmitted,
     failState,
     listState,
     resetState,
-    startDateState,
     titleState,
 } from './data/habitData';
 
@@ -64,8 +62,6 @@ export default function Reset() {
     const resetTitle = useResetRecoilState(titleState);
     const resetComplete = useResetRecoilState(completeState);
     const resetFail = useResetRecoilState(failState);
-    const resetStartDate = useResetRecoilState(startDateState);
-    const resetDateSubmitted = useResetRecoilState(dateSubmitted);
     const resetList = useResetRecoilState(listState);
 
     const handleReset = () => {
@@ -74,8 +70,6 @@ export default function Reset() {
         resetTitle();
         resetComplete();
         resetFail();
-        resetStartDate();
-        resetDateSubmitted();
         resetList();
     };
 

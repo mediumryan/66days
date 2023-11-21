@@ -1,11 +1,10 @@
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { styled } from 'styled-components';
 import {
     completeState,
-    dateSubmitted,
+    dateState,
     failState,
     listState,
-    startDateState,
     titleState,
 } from '../../data/habitData';
 
@@ -46,14 +45,13 @@ const ListButton = styled.div`
 `;
 
 export default function ListItem({ item, habitNumber }) {
+    const [list, setList] = useRecoilState(listState);
     const title = useRecoilValue(titleState);
-    const setList = useSetRecoilState(listState);
     // setting list date
-    const startDate = useRecoilValue(startDateState);
-    const currentDate = new Date(startDate);
-    currentDate.setDate(currentDate.getDate() + item.id);
-    const listDate = currentDate.toLocaleDateString('ko-KR');
-    const isDate = useRecoilValue(dateSubmitted);
+    const date = useRecoilValue(dateState);
+    // const currentDate = new Date(date[habitNumber].start);
+    // currentDate.setDate(currentDate.getDate() + item.id);
+    // const listDate = currentDate.toLocaleDateString('ko-KR');
     // handle complete
     const [complete, setComplete] = useRecoilState(completeState);
     const handleComplete = () => {
@@ -65,6 +63,13 @@ export default function ListItem({ item, habitNumber }) {
                 newComplete[habitNumber].count++;
                 return newComplete;
             });
+            setList((prev) => {
+                const newList = [...prev];
+                if (newList.length > 0 && newList[habitNumber].length > 1) {
+                    newList[habitNumber] = newList[habitNumber].slice(1);
+                }
+                return newList;
+            });
         } else if (complete[habitNumber].count === 65) {
             setComplete((prev) => {
                 const newComplete = prev.map((item) => {
@@ -72,6 +77,13 @@ export default function ListItem({ item, habitNumber }) {
                 });
                 newComplete[habitNumber].count++;
                 return newComplete;
+            });
+            setList((prev) => {
+                const newList = [...prev];
+                if (newList.length > 0 && newList[habitNumber].length > 1) {
+                    newList[habitNumber] = newList[habitNumber].slice(1);
+                }
+                return newList;
             });
             alert('Project complete. Congratulation!');
         } else {
@@ -89,6 +101,13 @@ export default function ListItem({ item, habitNumber }) {
                 newFail[habitNumber].count++;
                 return newFail;
             });
+            setList((prev) => {
+                const newList = [...prev];
+                if (newList.length > 0 && newList[habitNumber].length > 1) {
+                    newList[habitNumber] = newList[habitNumber].slice(1);
+                }
+                return newList;
+            });
         } else if (fail[habitNumber].count === 2) {
             setFail((prev) => {
                 const newFail = prev.map((item) => {
@@ -96,6 +115,13 @@ export default function ListItem({ item, habitNumber }) {
                 });
                 newFail[habitNumber].count++;
                 return newFail;
+            });
+            setList((prev) => {
+                const newList = [...prev];
+                if (newList.length > 0 && newList[habitNumber].length > 1) {
+                    newList[habitNumber] = newList[habitNumber].slice(1);
+                }
+                return newList;
             });
             alert('Project fail.');
         } else {
@@ -111,7 +137,9 @@ export default function ListItem({ item, habitNumber }) {
                     : 'Title is not defined'}
             </ListTitle>
             <ListDate>
-                {isDate === true ? listDate : 'Data is not found'}
+                {date[habitNumber].start === ''
+                    ? 'Data is not found'
+                    : date[habitNumber].start}
             </ListDate>
             <ListButton>
                 <button

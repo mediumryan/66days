@@ -3,9 +3,7 @@ import { styled } from 'styled-components';
 import {
     completePercentState,
     completeState,
-    dateSubmitted,
-    endDateState,
-    startDateState,
+    dateState,
 } from '../../data/habitData';
 import { useForm } from 'react-hook-form';
 import { FaPlus } from 'react-icons/fa';
@@ -86,13 +84,10 @@ const End = styled(Start)``;
 export default function Progress({ habitNumber }) {
     const complete = useRecoilValue(completeState);
     const completePercent = useRecoilValue(completePercentState);
-    const [isDate, setIsDate] = useRecoilState(dateSubmitted);
-    const [startDate, setStartDate] = useRecoilState(startDateState);
-    const endDate = useRecoilValue(endDateState);
+    const [date, setDate] = useRecoilState(dateState);
     const { register, handleSubmit } = useForm();
     const getStartDate = (data) => {
-        setStartDate(data.date);
-        setIsDate(true);
+        setDate();
     };
 
     return (
@@ -103,7 +98,7 @@ export default function Progress({ habitNumber }) {
                 <ProgressBar per={completePercent[habitNumber]} />
             </ProgressBarBack>
             <DateValue>
-                {isDate === false ? (
+                {date[habitNumber].submitted === false ? (
                     <form onSubmit={handleSubmit(getStartDate)}>
                         <label>Start : </label>
                         <input
@@ -116,21 +111,17 @@ export default function Progress({ habitNumber }) {
                     </form>
                 ) : null}
 
-                {isDate ? (
+                {date[habitNumber].submitted ? (
                     <StartEnd>
                         <Start>
                             <span>Start</span>
-                            <span>{startDate}</span>
+                            <span>{date[habitNumber].start}</span>
                         </Start>
                         <End>
                             <span>End</span>
-                            <span>{endDate}</span>
+                            <span>{date[habitNumber].start}</span>
                         </End>
-                        <button
-                            onClick={() => {
-                                setIsDate(false);
-                            }}
-                        >
+                        <button onClick={() => {}}>
                             <SlNote />
                         </button>
                     </StartEnd>
