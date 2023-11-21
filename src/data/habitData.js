@@ -193,6 +193,22 @@ export const dateState = atom({
     effects_UNSTABLE: [persistAtom],
 });
 
+export const listDateState = selector({
+    key: 'list_date_state',
+    get: ({ get }) => {
+        const date = get(dateState);
+        const dateArr = date.map((item, index) => {
+            if (item[index].start === '') {
+                console.log('1');
+            } else {
+                console.log('555555');
+            }
+        });
+        return dateArr;
+    },
+    effects_UNSTABLE: [persistAtom],
+});
+
 // export const endDateState = selector({
 //     key: 'end_date',
 //     get: ({ get }) => {

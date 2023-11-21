@@ -87,7 +87,13 @@ export default function Progress({ habitNumber }) {
     const [date, setDate] = useRecoilState(dateState);
     const { register, handleSubmit } = useForm();
     const getStartDate = (data) => {
-        setDate();
+        setDate((prev) => {
+            const newDate = prev.map((item) => {
+                return { ...item };
+            });
+            newDate[habitNumber].start = data.date;
+            return newDate;
+        });
     };
 
     return (

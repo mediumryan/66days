@@ -4,6 +4,7 @@ import {
     completeState,
     dateState,
     failState,
+    listDateState,
     listState,
     titleState,
 } from '../../data/habitData';
@@ -49,6 +50,8 @@ export default function ListItem({ item, habitNumber }) {
     const title = useRecoilValue(titleState);
     // setting list date
     const date = useRecoilValue(dateState);
+    const [listDate, setListDate] = useRecoilState(listDateState);
+    console.log(listDate);
     // const currentDate = new Date(date[habitNumber].start);
     // currentDate.setDate(currentDate.getDate() + item.id);
     // const listDate = currentDate.toLocaleDateString('ko-KR');
@@ -138,7 +141,7 @@ export default function ListItem({ item, habitNumber }) {
             </ListTitle>
             <ListDate>
                 {date[habitNumber].start === ''
-                    ? 'Data is not found'
+                    ? 'Start date is not defined'
                     : date[habitNumber].start}
             </ListDate>
             <ListButton>
