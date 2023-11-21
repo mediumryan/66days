@@ -1,8 +1,8 @@
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { styled } from 'styled-components';
 import {
     dateSubmitted,
-    failCountState,
+    failState,
     listState,
     startDateState,
     titleState,
@@ -60,15 +60,24 @@ export default function ListItem({ item, habitNumber }) {
         setList(newList);
     };
     // handle fail
-    const [failCount, setFailCount] = useRecoilState(failCountState);
+    const [fail, setFail] = useRecoilState(failState);
     const handleFail = () => {
-        if (failCount < 2) {
-            const copy = [...list];
-            const newList = copy.filter((a) => a.id !== item.id);
-            setList(newList);
-            setFailCount((prev) => prev + 1);
+        if (fail[habitNumber].count < 2) {
+            setFail((prev) => {
+                const newFail = prev.map((item) => {
+                    return { ...item };
+                });
+                newFail[habitNumber].count++;
+                return newFail;
+            });
         } else {
-            setList([]);
+            setList((prev) => {
+                const newList = prev.map((item) => {
+                    return { ...item };
+                });
+                newList[habitNumber] = [];
+                return newList;
+            });
             alert('project fail');
         }
     };

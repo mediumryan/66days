@@ -4,7 +4,6 @@ import { useRecoilState, useResetRecoilState } from 'recoil';
 import {
     completeState,
     dateSubmitted,
-    failCountState,
     failState,
     listState,
     resetState,
@@ -65,7 +64,6 @@ export default function Reset() {
     const resetTitle = useResetRecoilState(titleState);
     const resetComplete = useResetRecoilState(completeState);
     const resetFail = useResetRecoilState(failState);
-    const resetFailCount = useResetRecoilState(failCountState);
     const resetStartDate = useResetRecoilState(startDateState);
     const resetDateSubmitted = useResetRecoilState(dateSubmitted);
     const resetList = useResetRecoilState(listState);
@@ -76,7 +74,6 @@ export default function Reset() {
         resetTitle();
         resetComplete();
         resetFail();
-        resetFailCount();
         resetStartDate();
         resetDateSubmitted();
         resetList();

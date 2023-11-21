@@ -88,6 +88,7 @@ export const completePercentState = selector({
         });
         return percentArr;
     },
+    effects_UNSTABLE: [persistAtom],
 });
 
 export const failState = atom({
@@ -124,12 +125,6 @@ export const failState = atom({
             count: 0,
         },
     ],
-    effects_UNSTABLE: [persistAtom],
-});
-
-export const failCountState = atom({
-    key: 'fail_count',
-    default: [0],
     effects_UNSTABLE: [persistAtom],
 });
 
