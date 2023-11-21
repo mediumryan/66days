@@ -6,7 +6,11 @@ import List from '../Components/List/List';
 import Complete from '../Components/CompleteFail/Complete';
 import Fail from '../Components/CompleteFail/Fail';
 import { useRecoilValue } from 'recoil';
-import { completeState, failCountState } from '../data/habitData';
+import {
+    completePercentState,
+    completeState,
+    failCountState,
+} from '../data/habitData';
 import { useParams } from 'react-router-dom';
 
 export const PageWrapper = styled.div`
@@ -32,7 +36,9 @@ export default function Habit() {
     const complete = useRecoilValue(completeState);
     const failCnt = useRecoilValue(failCountState);
 
-    console.log(complete[id]);
+    const per = useRecoilValue(completePercentState);
+
+    console.log(per);
 
     return (
         <PageWrapper>

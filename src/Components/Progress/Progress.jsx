@@ -2,6 +2,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { styled } from 'styled-components';
 import {
     completePercentState,
+    completeState,
     dateSubmitted,
     endDateState,
     startDateState,
@@ -82,9 +83,9 @@ const Start = styled.div`
 
 const End = styled(Start)``;
 
-export default function Progress() {
+export default function Progress({ habitNumber }) {
+    const complete = useRecoilValue(completeState);
     const completePercent = useRecoilValue(completePercentState);
-
     const [isDate, setIsDate] = useRecoilState(dateSubmitted);
     const [startDate, setStartDate] = useRecoilState(startDateState);
     const endDate = useRecoilValue(endDateState);
@@ -96,10 +97,10 @@ export default function Progress() {
 
     return (
         <ProgressWrapper>
-            <Per>{completePercent}%</Per>
-            <CompleteCount>66</CompleteCount>
+            <Per>{completePercent[habitNumber]}%</Per>
+            <CompleteCount>{complete[habitNumber].count} / 66</CompleteCount>
             <ProgressBarBack>
-                <ProgressBar per={completePercent} />
+                <ProgressBar per={completePercent[habitNumber]} />
             </ProgressBarBack>
             <DateValue>
                 {isDate === false ? (
