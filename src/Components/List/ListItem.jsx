@@ -1,6 +1,7 @@
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 import {
+    completeState,
     dateSubmitted,
     failState,
     listState,
@@ -46,6 +47,7 @@ const ListButton = styled.div`
 
 export default function ListItem({ item, habitNumber }) {
     const title = useRecoilValue(titleState);
+    const setList = useSetRecoilState(listState);
     // setting list date
     const startDate = useRecoilValue(startDateState);
     const currentDate = new Date(startDate);
@@ -53,11 +55,28 @@ export default function ListItem({ item, habitNumber }) {
     const listDate = currentDate.toLocaleDateString('ko-KR');
     const isDate = useRecoilValue(dateSubmitted);
     // handle complete
-    const [list, setList] = useRecoilState(listState);
-    const handleComplete = (item) => {
-        const copy = [...list];
-        const newList = copy.filter((a) => a.id !== item.id);
-        setList(newList);
+    const [complete, setComplete] = useRecoilState(completeState);
+    const handleComplete = () => {
+        if (complete[habitNumber].count < 65) {
+            setComplete((prev) => {
+                const newComplete = prev.map((item) => {
+                    return { ...item };
+                });
+                newComplete[habitNumber].count++;
+                return newComplete;
+            });
+        } else if (complete[habitNumber].count === 65) {
+            setComplete((prev) => {
+                const newComplete = prev.map((item) => {
+                    return { ...item };
+                });
+                newComplete[habitNumber].count++;
+                return newComplete;
+            });
+            alert('Project complete. Congratulation!');
+        } else {
+            return;
+        }
     };
     // handle fail
     const [fail, setFail] = useRecoilState(failState);
@@ -70,15 +89,17 @@ export default function ListItem({ item, habitNumber }) {
                 newFail[habitNumber].count++;
                 return newFail;
             });
-        } else {
-            setList((prev) => {
-                const newList = prev.map((item) => {
+        } else if (fail[habitNumber].count === 2) {
+            setFail((prev) => {
+                const newFail = prev.map((item) => {
                     return { ...item };
                 });
-                newList[habitNumber] = [];
-                return newList;
+                newFail[habitNumber].count++;
+                return newFail;
             });
-            alert('project fail');
+            alert('Project fail.');
+        } else {
+            return;
         }
     };
 
