@@ -4,6 +4,7 @@ import {
     completePercentState,
     completeState,
     dateState,
+    endDateState,
 } from '../../data/habitData';
 import { useForm } from 'react-hook-form';
 import { FaPlus } from 'react-icons/fa';
@@ -85,6 +86,7 @@ export default function Progress({ habitNumber }) {
     const complete = useRecoilValue(completeState);
     const completePercent = useRecoilValue(completePercentState);
     const [date, setDate] = useRecoilState(dateState);
+    const end = useRecoilValue(endDateState);
     const { register, handleSubmit } = useForm();
     const getStartDate = (data) => {
         setDate((prev) => {
@@ -92,9 +94,12 @@ export default function Progress({ habitNumber }) {
                 return { ...item };
             });
             newDate[habitNumber].start = data.date;
+            newDate[habitNumber].submitted = true;
             return newDate;
         });
     };
+
+    console.log(end);
 
     return (
         <ProgressWrapper>
@@ -125,9 +130,19 @@ export default function Progress({ habitNumber }) {
                         </Start>
                         <End>
                             <span>End</span>
-                            <span>{date[habitNumber].start}</span>
+                            <span>{end[habitNumber]}</span>
                         </End>
-                        <button onClick={() => {}}>
+                        <button
+                            onClick={() => {
+                                setDate((prev) => {
+                                    const newDate = prev.map((item) => {
+                                        return { ...item };
+                                    });
+                                    newDate[habitNumber].submitted = false;
+                                    return newDate;
+                                });
+                            }}
+                        >
                             <SlNote />
                         </button>
                     </StartEnd>

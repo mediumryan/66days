@@ -1,4 +1,4 @@
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 import {
     completeState,
@@ -46,15 +46,11 @@ const ListButton = styled.div`
 `;
 
 export default function ListItem({ item, habitNumber }) {
-    const [list, setList] = useRecoilState(listState);
+    const setList = useSetRecoilState(listState);
     const title = useRecoilValue(titleState);
     // setting list date
     const date = useRecoilValue(dateState);
-    const [listDate, setListDate] = useRecoilState(listDateState);
-    console.log(listDate);
-    // const currentDate = new Date(date[habitNumber].start);
-    // currentDate.setDate(currentDate.getDate() + item.id);
-    // const listDate = currentDate.toLocaleDateString('ko-KR');
+    const listDate = useRecoilValue(listDateState);
     // handle complete
     const [complete, setComplete] = useRecoilState(completeState);
     const handleComplete = () => {
@@ -142,7 +138,7 @@ export default function ListItem({ item, habitNumber }) {
             <ListDate>
                 {date[habitNumber].start === ''
                     ? 'Start date is not defined'
-                    : date[habitNumber].start}
+                    : listDate[habitNumber][item.id]}
             </ListDate>
             <ListButton>
                 <button

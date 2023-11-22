@@ -197,38 +197,56 @@ export const listDateState = selector({
     key: 'list_date_state',
     get: ({ get }) => {
         const date = get(dateState);
-        const dateArr = date.map((item, index) => {
-            if (item[index].start === '') {
-                console.log('1');
-            } else {
-                console.log('555555');
-            }
+        const copy = date.map((item) => {
+            return { ...item };
         });
-        return dateArr;
+
+        const resultArray = [];
+
+        for (const copyItem of copy) {
+            if (copyItem.start !== '') {
+                let startDate = new Date(copyItem.start);
+                const newArr = Array.from({ length: 66 }, (_, index) => {
+                    const newDate = new Date(startDate);
+                    newDate.setDate(startDate.getDate() + index);
+                    return newDate.toLocaleDateString('ko-KR');
+                });
+                resultArray.push(newArr);
+            } else {
+                resultArray.push(undefined);
+            }
+        }
+
+        return resultArray;
     },
     effects_UNSTABLE: [persistAtom],
 });
 
-// export const endDateState = selector({
-//     key: 'end_date',
-//     get: ({ get }) => {
-//         const start_date = get(startDateState);
-//         if (start_date !== '') {
-//             const inputDate = new Date(start_date);
-//             // 입력된 날짜에 일수를 더한 새로운 Date 객체 생성
-//             const newDate = new Date(inputDate);
-//             newDate.setDate(inputDate.getDate() + 66);
-//             // 새로운 날짜를 원하는 형식으로 포맷
-//             const year = newDate.getFullYear();
-//             const month = (newDate.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고 2자리로 포맷
-//             const day = newDate.getDate().toString().padStart(2, '0'); // 일도 2자리로 포맷
+export const endDateState = selector({
+    key: 'end_date_state',
+    get: ({ get }) => {
+        const date = get(dateState);
+        const copy = date.map((item) => {
+            return { ...item };
+        });
 
-//             const resultDateStr = `${year}-${month}-${day}`;
-//             return [resultDateStr];
-//         }
-//         return;
-//     },
-// });
+        const resultArray = [];
+
+        for (const copyItem of copy) {
+            if (copyItem.start !== '') {
+                let startDate = new Date(copyItem.start);
+                const newDate = new Date(startDate);
+                newDate.setDate(startDate.getDate() + 66);
+                resultArray.push(newDate.toLocaleDateString('ko-KR'));
+            } else {
+                resultArray.push(undefined);
+            }
+        }
+
+        return resultArray;
+    },
+    effects_UNSTABLE: [persistAtom],
+});
 
 // reset
 export const resetState = atom({
