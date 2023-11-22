@@ -80,7 +80,6 @@ export default function Title({ habitNumber }) {
     return (
         <FormWrapper onSubmit={handleSubmit(getValue)}>
             <FormText
-                isTitle={title[habitNumber].submitted}
                 style={{
                     display: title[habitNumber].submitted ? 'flex' : 'none',
                 }}
@@ -105,7 +104,6 @@ export default function Title({ habitNumber }) {
                 </button>
             </FormText>
             <FormContents
-                isTitle={title[habitNumber].submitted}
                 style={{
                     display: title[habitNumber].submitted ? 'none' : 'flex',
                 }}

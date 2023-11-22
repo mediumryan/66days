@@ -43,7 +43,6 @@ export const ProgressBarBack = styled.div`
 
 export const ProgressBar = styled.div`
     background-color: var(--primary-200);
-    width: ${(props) => props.per}%;
     height: 100%;
 `;
 
@@ -104,7 +103,9 @@ export default function Progress({ habitNumber }) {
             <Per>{completePercent[habitNumber]}%</Per>
             <CompleteCount>{complete[habitNumber].count} / 66</CompleteCount>
             <ProgressBarBack>
-                <ProgressBar per={completePercent[habitNumber]} />
+                <ProgressBar
+                    style={{ width: `${completePercent[habitNumber]}%` }}
+                />
             </ProgressBarBack>
             <DateValue>
                 {date[habitNumber].submitted === false ? (

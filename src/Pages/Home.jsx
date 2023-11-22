@@ -165,9 +165,9 @@ export default function Home() {
     return (
         <PageWrapper>
             <HomeItemWrapper>
-                {title.map((_, index) => {
+                {title.map((item, index) => {
                     return (
-                        <li>
+                        <li key={item.id}>
                             <HomeTitle>
                                 <h3>
                                     {title[index].value === ''
@@ -178,7 +178,11 @@ export default function Home() {
                             </HomeTitle>
                             <HomeProgress>
                                 <ProgressBarBack>
-                                    <ProgressBar per={completePer[index]} />
+                                    <ProgressBar
+                                        style={{
+                                            width: `${completePer[index]}%`,
+                                        }}
+                                    />
                                 </ProgressBarBack>
                             </HomeProgress>
                             <HomeFigure>
