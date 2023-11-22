@@ -32,7 +32,7 @@ const Per = styled.span`
 
 const CompleteCount = styled.span``;
 
-const ProgressBarBack = styled.div`
+export const ProgressBarBack = styled.div`
     background-color: var(--bg-300);
     border-radius: 8px;
     width: 100%;
@@ -41,7 +41,7 @@ const ProgressBarBack = styled.div`
     margin: var(--margin-medium-large) 0;
 `;
 
-const ProgressBar = styled.div`
+export const ProgressBar = styled.div`
     background-color: var(--primary-200);
     width: ${(props) => props.per}%;
     height: 100%;

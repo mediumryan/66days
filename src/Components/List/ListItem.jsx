@@ -84,7 +84,7 @@ export default function ListItem({ item, habitNumber }) {
                 }
                 return newList;
             });
-            alert('Project complete. Congratulation!');
+            alert(`${title[habitNumber]} Project complete. Congratulation!`);
         } else {
             return;
         }
@@ -122,7 +122,7 @@ export default function ListItem({ item, habitNumber }) {
                 }
                 return newList;
             });
-            alert('Project fail.');
+            alert(`${title[habitNumber]} Project fail.`);
         } else {
             return;
         }
@@ -143,14 +143,14 @@ export default function ListItem({ item, habitNumber }) {
             <ListButton>
                 <button
                     onClick={() => {
-                        handleComplete(item);
+                        handleComplete();
                     }}
                 >
                     Complete
                 </button>
                 <button
                     onClick={() => {
-                        handleFail(item);
+                        handleFail();
                     }}
                 >
                     Fail

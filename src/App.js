@@ -5,9 +5,7 @@ import Home from './Pages/Home';
 import Habit from './Pages/Habit';
 import Navigation from './Components/Navigation/Navigation';
 
-const MainContainer = styled.div`
-    padding-bottom: 2rem;
-`;
+const MainContainer = styled.div``;
 
 function App() {
     return (

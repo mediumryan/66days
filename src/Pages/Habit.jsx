@@ -14,8 +14,9 @@ export const PageWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
+    height: 100%;
     padding: var(--padding-medium-large);
+    padding-bottom: 5rem;
     background-color: var(--bg-100);
     color: var(--text-100);
     overflow-y: scroll;
