@@ -83,10 +83,14 @@ export const completePercentState = selector({
     key: 'complete_percent',
     get: ({ get }) => {
         const complete = get(completeState);
-        const percentArr = complete.map((item) => {
-            return Math.floor((item.count / 66) * 100);
-        });
-        return percentArr;
+        if (Array.isArray(complete)) {
+            const percentArr = complete.map((item) => {
+                return Math.floor((item.count / 66) * 100);
+            });
+            return percentArr;
+        } else {
+            return;
+        }
     },
     effects_UNSTABLE: [persistAtom],
 });
