@@ -1,8 +1,9 @@
 import { styled } from 'styled-components';
 // 상태 초기화
-import { useRecoilState, useResetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
     completeState,
+    dateState,
     failState,
     listState,
     resetState,
@@ -56,21 +57,73 @@ const ResetModal = styled.div`
     }
 `;
 
-export default function Reset() {
+export default function Reset({ habitNumber }) {
     const [reset, setReset] = useRecoilState(resetState);
     // persist list
-    const resetTitle = useResetRecoilState(titleState);
-    const resetComplete = useResetRecoilState(completeState);
-    const resetFail = useResetRecoilState(failState);
-    const resetList = useResetRecoilState(listState);
+    const resetTitle = useSetRecoilState(titleState);
+    const resetComplete = useSetRecoilState(completeState);
+    const resetFail = useSetRecoilState(failState);
+    const resetList = useSetRecoilState(listState);
+    const resetDate = useSetRecoilState(dateState);
 
     const handleReset = () => {
         setReset((prev) => !prev);
         // 저장된 상태 초기화
-        resetTitle();
-        resetComplete();
-        resetFail();
-        resetList();
+        resetTitle((prev) => {
+            const newTitle = prev.map((item) => {
+                return { ...item };
+            });
+            newTitle[habitNumber] = {
+                id: habitNumber,
+                value: '',
+                isActive: false,
+                submitted: false,
+            };
+            return newTitle;
+        });
+        resetComplete((prev) => {
+            const newComplete = prev.map((item) => {
+                return { ...item };
+            });
+            newComplete[habitNumber] = {
+                id: habitNumber,
+                value: '',
+                submitted: false,
+                count: 0,
+            };
+            return newComplete;
+        });
+        resetFail((prev) => {
+            const newFail = prev.map((item) => {
+                return { ...item };
+            });
+            newFail[habitNumber] = {
+                id: habitNumber,
+                value: '',
+                submitted: false,
+                count: 0,
+            };
+            return newFail;
+        });
+        resetList((prev) => {
+            const newList = [...prev];
+            newList[habitNumber] = Array.from({ length: 66 }, (_, index) => ({
+                id: index,
+                value: index + 1 + '일차',
+            }));
+            return newList;
+        });
+        resetDate((prev) => {
+            const newDate = prev.map((item) => {
+                return { ...item };
+            });
+            newDate[habitNumber] = {
+                id: habitNumber,
+                start: '',
+                submitted: false,
+            };
+            return newDate;
+        });
     };
 
     return (

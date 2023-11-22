@@ -99,8 +99,6 @@ export default function Progress({ habitNumber }) {
         });
     };
 
-    console.log(end);
-
     return (
         <ProgressWrapper>
             <Per>{completePercent[habitNumber]}%</Per>
