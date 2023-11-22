@@ -39,8 +39,8 @@ export default function NavList() {
     return (
         <ListWrapper style={{ display: menuOn ? 'block' : 'none' }}>
             <ul>
-                {titleArr.map((item) => {
-                    return (
+                {Array.isArray(titleArr) &&
+                    titleArr.map((item) => (
                         <li key={item.id}>
                             <Link
                                 to={`/habit/${item.id}`}
@@ -51,8 +51,7 @@ export default function NavList() {
                                 {item.value === '' ? 'Empty' : item.value}
                             </Link>
                         </li>
-                    );
-                })}
+                    ))}
             </ul>
         </ListWrapper>
     );
