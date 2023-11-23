@@ -34,13 +34,13 @@ const ListWrapper = styled.div`
 
 export default function NavList() {
     const [menuOn, setMenuOn] = useRecoilState(isMenuOn);
-    const titleArr = useRecoilValue(titleState);
+    const title = useRecoilValue(titleState);
 
     return (
         <ListWrapper style={{ display: menuOn ? 'block' : 'none' }}>
             <ul>
-                {Array.isArray(titleArr) &&
-                    titleArr.map((item) => (
+                {title.map((item) => {
+                    return (
                         <li key={item.id}>
                             <Link
                                 to={`/habit/${item.id}`}
@@ -51,7 +51,8 @@ export default function NavList() {
                                 {item.value === '' ? 'Empty' : item.value}
                             </Link>
                         </li>
-                    ))}
+                    );
+                })}
             </ul>
         </ListWrapper>
     );

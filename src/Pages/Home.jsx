@@ -87,6 +87,13 @@ export default function Home() {
     const [fail, setFail] = useRecoilState(failState);
     const setList = useSetRecoilState(listState);
 
+    const list = useRecoilValue(listState);
+
+    console.log(title);
+    // console.log(complete);
+    // console.log(completePer);
+    // console.log(list);
+
     // handle complete
     const handleComplete = (itemIndex) => {
         if (complete[itemIndex].count < 65) {
@@ -165,54 +172,53 @@ export default function Home() {
     return (
         <PageWrapper>
             <HomeItemWrapper>
-                {Array.isArray(title) &&
-                    title.map((item, index) => {
-                        return (
-                            <li key={item.id}>
-                                <HomeTitle>
-                                    <h3>
-                                        {title[index].value === ''
-                                            ? 'Empty'
-                                            : title[index].value}
-                                    </h3>
-                                    <Link to={`/habit/${index}`}>Go</Link>
-                                </HomeTitle>
-                                <HomeProgress>
-                                    <ProgressBarBack>
-                                        <ProgressBar
-                                            style={{
-                                                width: `${completePer[index]}%`,
-                                            }}
-                                        />
-                                    </ProgressBarBack>
-                                </HomeProgress>
-                                <HomeFigure>
-                                    <span>
-                                        {end[index] === undefined
-                                            ? 'Empty'
-                                            : `${end[index]} End`}
-                                    </span>
-                                    <span>{completePer[index]}%</span>
-                                </HomeFigure>
-                                <HomeButtons>
-                                    <button
-                                        onClick={() => {
-                                            handleComplete(index);
+                {title.map((item, index) => {
+                    return (
+                        <li key={item.id}>
+                            <HomeTitle>
+                                <h3>
+                                    {title[index].value === ''
+                                        ? 'Empty'
+                                        : title[index].value}
+                                </h3>
+                                <Link to={`/habit/${index}`}>Go</Link>
+                            </HomeTitle>
+                            <HomeProgress>
+                                <ProgressBarBack>
+                                    <ProgressBar
+                                        style={{
+                                            width: `${completePer[index]}%`,
                                         }}
-                                    >
-                                        Complete ({complete[index].count})
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            handleFail(index);
-                                        }}
-                                    >
-                                        Fail ({fail[index].count})
-                                    </button>
-                                </HomeButtons>
-                            </li>
-                        );
-                    })}
+                                    />
+                                </ProgressBarBack>
+                            </HomeProgress>
+                            <HomeFigure>
+                                <span>
+                                    {end[index] === undefined
+                                        ? 'Empty'
+                                        : `${end[index]} End`}
+                                </span>
+                                <span>{completePer[index]}%</span>
+                            </HomeFigure>
+                            <HomeButtons>
+                                <button
+                                    onClick={() => {
+                                        handleComplete(index);
+                                    }}
+                                >
+                                    Complete ({complete[index].count})
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        handleFail(index);
+                                    }}
+                                >
+                                    Fail ({fail[index].count})
+                                </button>
+                            </HomeButtons>
+                        </li>
+                    );
+                })}
             </HomeItemWrapper>
         </PageWrapper>
     );

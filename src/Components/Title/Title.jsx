@@ -72,6 +72,7 @@ export default function Title({ habitNumber }) {
             });
             newTitle[habitNumber].value = data.title;
             newTitle[habitNumber].submitted = true;
+            console.log(newTitle);
             return newTitle;
         });
         setValue('title', '');
