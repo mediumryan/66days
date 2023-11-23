@@ -87,13 +87,6 @@ export default function Home() {
     const [fail, setFail] = useRecoilState(failState);
     const setList = useSetRecoilState(listState);
 
-    const list = useRecoilValue(listState);
-
-    console.log(title);
-    // console.log(complete);
-    // console.log(completePer);
-    // console.log(list);
-
     // handle complete
     const handleComplete = (itemIndex) => {
         if (complete[itemIndex].count < 65) {
