@@ -165,53 +165,54 @@ export default function Home() {
     return (
         <PageWrapper>
             <HomeItemWrapper>
-                {title.map((item, index) => {
-                    return (
-                        <li key={item.id}>
-                            <HomeTitle>
-                                <h3>
-                                    {title[index].value === ''
-                                        ? 'Empty'
-                                        : title[index].value}
-                                </h3>
-                                <Link to={`/habit/${index}`}>Go</Link>
-                            </HomeTitle>
-                            <HomeProgress>
-                                <ProgressBarBack>
-                                    <ProgressBar
-                                        style={{
-                                            width: `${completePer[index]}%`,
+                {Array.isArray(title) &&
+                    title.map((item, index) => {
+                        return (
+                            <li key={item.id}>
+                                <HomeTitle>
+                                    <h3>
+                                        {title[index].value === ''
+                                            ? 'Empty'
+                                            : title[index].value}
+                                    </h3>
+                                    <Link to={`/habit/${index}`}>Go</Link>
+                                </HomeTitle>
+                                <HomeProgress>
+                                    <ProgressBarBack>
+                                        <ProgressBar
+                                            style={{
+                                                width: `${completePer[index]}%`,
+                                            }}
+                                        />
+                                    </ProgressBarBack>
+                                </HomeProgress>
+                                <HomeFigure>
+                                    <span>
+                                        {end[index] === undefined
+                                            ? 'Empty'
+                                            : `${end[index]} End`}
+                                    </span>
+                                    <span>{completePer[index]}%</span>
+                                </HomeFigure>
+                                <HomeButtons>
+                                    <button
+                                        onClick={() => {
+                                            handleComplete(index);
                                         }}
-                                    />
-                                </ProgressBarBack>
-                            </HomeProgress>
-                            <HomeFigure>
-                                <span>
-                                    {end[index] === undefined
-                                        ? 'Empty'
-                                        : `${end[index]} End`}
-                                </span>
-                                <span>{completePer[index]}%</span>
-                            </HomeFigure>
-                            <HomeButtons>
-                                <button
-                                    onClick={() => {
-                                        handleComplete(index);
-                                    }}
-                                >
-                                    Complete ({complete[index].count})
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        handleFail(index);
-                                    }}
-                                >
-                                    Fail ({fail[index].count})
-                                </button>
-                            </HomeButtons>
-                        </li>
-                    );
-                })}
+                                    >
+                                        Complete ({complete[index].count})
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            handleFail(index);
+                                        }}
+                                    >
+                                        Fail ({fail[index].count})
+                                    </button>
+                                </HomeButtons>
+                            </li>
+                        );
+                    })}
             </HomeItemWrapper>
         </PageWrapper>
     );
