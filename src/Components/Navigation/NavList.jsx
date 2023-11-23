@@ -39,20 +39,56 @@ export default function NavList() {
     return (
         <ListWrapper style={{ display: menuOn ? 'block' : 'none' }}>
             <ul>
-                {title.map((item) => {
-                    return (
-                        <li key={item.id}>
-                            <Link
-                                to={`/habit/${item.id}`}
-                                onClick={() => {
-                                    setMenuOn(false);
-                                }}
-                            >
-                                {item.value === '' ? 'Empty' : item.value}
-                            </Link>
-                        </li>
-                    );
-                })}
+                <li>
+                    <Link
+                        to={`/habit/${title[0].id}`}
+                        onClick={() => {
+                            setMenuOn(false);
+                        }}
+                    >
+                        {title[0].value === '' ? 'Empty' : title[0].value}
+                    </Link>
+                </li>
+                <li>
+                    <Link
+                        to={`/habit/${title[1].id}`}
+                        onClick={() => {
+                            setMenuOn(false);
+                        }}
+                    >
+                        {title[1].value === '' ? 'Empty' : title[1].value}
+                    </Link>
+                </li>
+                <li>
+                    <Link
+                        to={`/habit/${title[2].id}`}
+                        onClick={() => {
+                            setMenuOn(false);
+                        }}
+                    >
+                        {title[2].value === '' ? 'Empty' : title[2].value}
+                    </Link>
+                </li>
+                <li>
+                    <Link
+                        to={`/habit/${title[3].id}`}
+                        onClick={() => {
+                            setMenuOn(false);
+                        }}
+                    >
+                        {title[3].value === '' ? 'Empty' : title[3].value}
+                    </Link>
+                </li>
+                <li>
+                    <Link
+                        to={`/habit/${title[4].id}`}
+                        onClick={() => {
+                            setMenuOn(false);
+                        }}
+                    >
+                        {title[4].value === '' ? 'Empty' : title[4].value}
+                    </Link>
+                </li>
             </ul>
         </ListWrapper>
     );
