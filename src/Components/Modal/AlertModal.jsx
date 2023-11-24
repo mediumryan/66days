@@ -6,7 +6,7 @@ const AlertModalWrapper = styled.div`
     left: 0%;
     width: 100%;
     height: 100vh;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
 `;
