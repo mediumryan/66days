@@ -28,24 +28,28 @@ const HomeItemWrapper = styled.ul`
         rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
         rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
     li {
+        position: relative;
         margin-bottom: 2rem;
         border-bottom: 3px solid var(--primary-100);
         padding: 2rem;
         width: 100%;
+        &:nth-child(odd) {
+            background-color: var(--bg-100);
+        }
     }
 `;
 
 const HomeTitle = styled.div`
-    position: relative;
     display: flex;
     justify-content: center;
     & > h3 {
-        font-size: 1.5rem;
+        font-size: 1.15rem;
         color: var(--accent-200);
     }
     & > a {
         position: absolute;
-        right: 2%;
+        right: 1%;
+        top: 1%;
         color: var(--accent-100);
         background-color: var(--primary-200);
         padding: 0.5rem;
