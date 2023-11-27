@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 import {
     completeState,
     dateState,
+    failModalState,
     failState,
     listDateState,
     listState,
@@ -47,9 +48,9 @@ const ListButton = styled.div`
 
 export default function ListItem({ item, habitNumber }) {
     const setList = useSetRecoilState(listState);
-    const title = useRecoilValue(titleState);
+    const [title, setTitle] = useRecoilState(titleState);
     // setting list date
-    const date = useRecoilValue(dateState);
+    const [date, setDate] = useRecoilState(dateState);
     const listDate = useRecoilValue(listDateState);
     // handle complete
     const [complete, setComplete] = useRecoilState(completeState);
@@ -91,6 +92,7 @@ export default function ListItem({ item, habitNumber }) {
     };
     // handle fail
     const [fail, setFail] = useRecoilState(failState);
+    const [failModal, setFailModal] = useRecoilState(failModalState);
     const handleFail = () => {
         if (fail[habitNumber].count < 2) {
             setFail((prev) => {
@@ -108,21 +110,65 @@ export default function ListItem({ item, habitNumber }) {
                 return newList;
             });
         } else if (fail[habitNumber].count === 2) {
+            setTitle((prev) => {
+                const newTitle = prev.map((item) => {
+                    return { ...item };
+                });
+                newTitle[habitNumber] = {
+                    id: habitNumber,
+                    value: '',
+                    isActive: false,
+                    submitted: false,
+                };
+                return newTitle;
+            });
+            setComplete((prev) => {
+                const newComplete = prev.map((item) => {
+                    return { ...item };
+                });
+                newComplete[habitNumber] = {
+                    id: habitNumber,
+                    value: '',
+                    submitted: false,
+                    count: 0,
+                };
+                return newComplete;
+            });
             setFail((prev) => {
                 const newFail = prev.map((item) => {
                     return { ...item };
                 });
-                newFail[habitNumber].count++;
+                newFail[habitNumber] = {
+                    id: habitNumber,
+                    value: '',
+                    submitted: false,
+                    count: 0,
+                };
                 return newFail;
             });
             setList((prev) => {
                 const newList = [...prev];
-                if (newList.length > 0 && newList[habitNumber].length > 1) {
-                    newList[habitNumber] = newList[habitNumber].slice(1);
-                }
+                newList[habitNumber] = Array.from(
+                    { length: 66 },
+                    (_, index) => ({
+                        id: index,
+                        value: index + 1 + '일차',
+                    })
+                );
                 return newList;
             });
-            alert(`${title[habitNumber]} Project fail.`);
+            setDate((prev) => {
+                const newDate = prev.map((item) => {
+                    return { ...item };
+                });
+                newDate[habitNumber] = {
+                    id: habitNumber,
+                    start: '',
+                    submitted: false,
+                };
+                return newDate;
+            });
+            setFailModal(true);
         } else {
             return;
         }

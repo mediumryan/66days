@@ -128,6 +128,13 @@ export const failState = atom({
     effects_UNSTABLE: [persistAtom],
 });
 
+// fail modal state
+
+export const failModalState = atom({
+    key: 'fail_modal_state',
+    default: false,
+});
+
 // list
 export const listState = atom({
     key: 'list_item',

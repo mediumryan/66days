@@ -160,7 +160,7 @@ export default function Home() {
                 }
                 return newList;
             });
-            alert(`${title[itemIndex]} Project fail.`);
+            alert(`${title[itemIndex].value} Project fail.`);
         } else {
             return;
         }
