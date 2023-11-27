@@ -5,6 +5,7 @@ import {
     dateState,
     failModalState,
     failState,
+    failTitleState,
     listDateState,
     listState,
     titleState,
@@ -92,7 +93,8 @@ export default function ListItem({ item, habitNumber }) {
     };
     // handle fail
     const [fail, setFail] = useRecoilState(failState);
-    const [failModal, setFailModal] = useRecoilState(failModalState);
+    const setFailModal = useSetRecoilState(failModalState);
+    const setFailTitle = useSetRecoilState(failTitleState);
     const handleFail = () => {
         if (fail[habitNumber].count < 2) {
             setFail((prev) => {
@@ -110,6 +112,7 @@ export default function ListItem({ item, habitNumber }) {
                 return newList;
             });
         } else if (fail[habitNumber].count === 2) {
+            setFailTitle(title[habitNumber].value);
             setTitle((prev) => {
                 const newTitle = prev.map((item) => {
                     return { ...item };

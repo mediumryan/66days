@@ -3,8 +3,11 @@ import { PageWrapper } from './Habit';
 import {
     completePercentState,
     completeState,
+    dateState,
     endDateState,
+    failModalState,
     failState,
+    failTitleState,
     listState,
     titleState,
 } from '../data/habitData';
@@ -84,12 +87,14 @@ const HomeButtons = styled.div`
 `;
 
 export default function Home() {
-    const title = useRecoilValue(titleState);
+    const [title, setTitle] = useRecoilState(titleState);
+    const setDate = useSetRecoilState(dateState);
     const end = useRecoilValue(endDateState);
     const completePer = useRecoilValue(completePercentState);
     const [complete, setComplete] = useRecoilState(completeState);
     const [fail, setFail] = useRecoilState(failState);
     const setList = useSetRecoilState(listState);
+    const setFailModal = useSetRecoilState(failModalState);
 
     // handle complete
     const handleComplete = (itemIndex) => {
@@ -129,6 +134,7 @@ export default function Home() {
         }
     };
     // handle fail
+    const setFailTitle = useSetRecoilState(failTitleState);
     const handleFail = (itemIndex) => {
         if (fail[itemIndex].count < 2) {
             setFail((prev) => {
@@ -146,25 +152,70 @@ export default function Home() {
                 return newList;
             });
         } else if (fail[itemIndex].count === 2) {
+            setFailTitle(title[itemIndex].value);
+            setTitle((prev) => {
+                const newTitle = prev.map((item) => {
+                    return { ...item };
+                });
+                newTitle[itemIndex] = {
+                    id: itemIndex,
+                    value: '',
+                    isActive: false,
+                    submitted: false,
+                };
+                return newTitle;
+            });
+            setComplete((prev) => {
+                const newComplete = prev.map((item) => {
+                    return { ...item };
+                });
+                newComplete[itemIndex] = {
+                    id: itemIndex,
+                    value: '',
+                    submitted: false,
+                    count: 0,
+                };
+                return newComplete;
+            });
             setFail((prev) => {
                 const newFail = prev.map((item) => {
                     return { ...item };
                 });
-                newFail[itemIndex].count++;
+                newFail[itemIndex] = {
+                    id: itemIndex,
+                    value: '',
+                    submitted: false,
+                    count: 0,
+                };
                 return newFail;
             });
             setList((prev) => {
                 const newList = [...prev];
-                if (newList.length > 0 && newList[itemIndex].length > 1) {
-                    newList[itemIndex] = newList[itemIndex].slice(1);
-                }
+                newList[itemIndex] = Array.from({ length: 66 }, (_, index) => ({
+                    id: index,
+                    value: index + 1 + '일차',
+                }));
                 return newList;
             });
-            alert(`${title[itemIndex].value} Project fail.`);
+            setDate((prev) => {
+                const newDate = prev.map((item) => {
+                    return { ...item };
+                });
+                newDate[itemIndex] = {
+                    id: itemIndex,
+                    start: '',
+                    submitted: false,
+                };
+                return newDate;
+            });
+            setFailModal(true);
         } else {
             return;
         }
     };
+
+    const failTitle = useRecoilValue(failTitleState);
+    console.log(failTitle);
 
     return (
         <PageWrapper>

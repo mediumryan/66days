@@ -128,6 +128,11 @@ export const failState = atom({
     effects_UNSTABLE: [persistAtom],
 });
 
+export const failTitleState = atom({
+    key: 'fail_title_state',
+    default: '',
+});
+
 // fail modal state
 
 export const failModalState = atom({
