@@ -10,10 +10,56 @@ import {
     failTitleState,
     listState,
     titleState,
+    userNameState,
 } from '../data/habitData';
 import { styled } from 'styled-components';
 import { ProgressBarBack, ProgressBar } from '../Components/Progress/Progress';
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { SlNote } from 'react-icons/sl';
+
+const HomeHello = styled.h2`
+    color: var(--primary-100);
+`;
+
+const HomeHelloForm = styled.form`
+    flex-direction: column;
+    label {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    & > div {
+        display: flex;
+        justify-content: center;
+        input {
+            width: 80%;
+            border: 0.5px solid var(--primary-100);
+            border-radius: 8px;
+            padding: 2px 8px;
+            margin-right: 0.5rem;
+            text-align: center;
+        }
+        button {
+            font-size: 1.5rem;
+            color: var(--primary-100);
+        }
+    }
+`;
+
+const HomeHelloContent = styled.div`
+    font-size: 1.5rem;
+    & > span {
+        position: relative;
+        overflow: auto;
+        button {
+            position: absolute;
+            top: 0;
+            right: -3rem;
+            font-size: 1.25rem;
+            color: var(--primary-100);
+        }
+    }
+`;
 
 const HomeItemWrapper = styled.ul`
     width: 100%;
@@ -95,6 +141,19 @@ export default function Home() {
     const [fail, setFail] = useRecoilState(failState);
     const setList = useSetRecoilState(listState);
     const setFailModal = useSetRecoilState(failModalState);
+
+    // handle user name
+    const { register, setValue, handleSubmit } = useForm();
+    const [user, setUser] = useRecoilState(userNameState);
+    const handleUserName = (data) => {
+        setUser((prev) => {
+            const newUser = { ...prev };
+            newUser.name = data.user;
+            newUser.submitted = true;
+            return newUser;
+        });
+        setValue('user', '');
+    };
 
     // handle complete
     const handleComplete = (itemIndex) => {
@@ -214,11 +273,44 @@ export default function Home() {
         }
     };
 
-    const failTitle = useRecoilValue(failTitleState);
-    console.log(failTitle);
-
     return (
         <PageWrapper>
+            <HomeHello>
+                <HomeHelloForm
+                    onSubmit={handleSubmit(handleUserName)}
+                    style={{ display: user.submitted ? 'none' : 'flex' }}
+                >
+                    <label>What is your name?</label>
+                    <div>
+                        <input
+                            placeholder="Your name or nickname"
+                            {...register('user', {
+                                required: true,
+                                maxLength: 25,
+                            })}
+                        />
+                        <button>+</button>
+                    </div>
+                </HomeHelloForm>
+                <HomeHelloContent
+                    style={{ display: user.submitted ? 'block' : 'none' }}
+                >
+                    <span>
+                        Hello, {user.name}.
+                        <button
+                            onClick={() => {
+                                setUser((prev) => {
+                                    const newUser = { ...prev };
+                                    newUser.submitted = false;
+                                    return newUser;
+                                });
+                            }}
+                        >
+                            <SlNote />
+                        </button>
+                    </span>
+                </HomeHelloContent>
+            </HomeHello>
             <HomeItemWrapper>
                 {title.map((item, index) => {
                     return (

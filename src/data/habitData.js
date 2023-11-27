@@ -3,6 +3,17 @@ import { recoilPersist } from 'recoil-persist';
 
 const { persistAtom } = recoilPersist();
 
+// about user name
+
+export const userNameState = atom({
+    key: 'user_name',
+    default: {
+        name: '',
+        submitted: false,
+    },
+    effects_UNSTABLE: [persistAtom],
+});
+
 // about habit
 
 export const titleState = atom({
