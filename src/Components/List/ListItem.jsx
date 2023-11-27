@@ -152,6 +152,12 @@ export default function ListItem({ item, habitNumber }) {
                     onClick={() => {
                         handleFail();
                     }}
+                    style={{
+                        backgroundColor:
+                            fail[habitNumber].count === 2
+                                ? '#FF4D4D'
+                                : '#61398f',
+                    }}
                 >
                     Fail
                 </button>

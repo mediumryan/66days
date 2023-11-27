@@ -209,6 +209,12 @@ export default function Home() {
                                     onClick={() => {
                                         handleFail(index);
                                     }}
+                                    style={{
+                                        backgroundColor:
+                                            fail[index].count === 2
+                                                ? '#FF4D4D'
+                                                : '#61398f',
+                                    }}
                                 >
                                     Fail ({fail[index].count})
                                 </button>

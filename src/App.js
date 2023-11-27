@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './Pages/Home';
 import Habit from './Pages/Habit';
 import Navigation from './Components/Navigation/Navigation';
-import AlertModal from './Components/Modal/AlertModal';
+import FailModal from './Components/Modal/FailModal';
 
 const MainContainer = styled.div`
     position: relative;
@@ -18,7 +18,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/habit/:id" element={<Habit />} />
             </Routes>
-            <AlertModal />
+            <FailModal />
         </MainContainer>
     );
 }
