@@ -1,12 +1,12 @@
 import { styled } from 'styled-components';
+import Swal from 'sweetalert2';
 // 상태 초기화
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import {
     completeState,
     dateState,
     failState,
     listState,
-    resetState,
     titleState,
 } from './data/habitData';
 
@@ -58,7 +58,6 @@ const ResetModal = styled.div`
 `;
 
 export default function Reset({ habitNumber }) {
-    const [reset, setReset] = useRecoilState(resetState);
     // persist list
     const resetTitle = useSetRecoilState(titleState);
     const resetComplete = useSetRecoilState(completeState);
@@ -67,89 +66,78 @@ export default function Reset({ habitNumber }) {
     const resetDate = useSetRecoilState(dateState);
 
     const handleReset = () => {
-        setReset((prev) => !prev);
-        // 저장된 상태 초기화
-        resetTitle((prev) => {
-            const newTitle = prev.map((item) => {
-                return { ...item };
-            });
-            newTitle[habitNumber] = {
-                id: habitNumber,
-                value: '',
-                isActive: false,
-                submitted: false,
-            };
-            return newTitle;
-        });
-        resetComplete((prev) => {
-            const newComplete = prev.map((item) => {
-                return { ...item };
-            });
-            newComplete[habitNumber] = {
-                id: habitNumber,
-                value: '',
-                submitted: false,
-                count: 0,
-            };
-            return newComplete;
-        });
-        resetFail((prev) => {
-            const newFail = prev.map((item) => {
-                return { ...item };
-            });
-            newFail[habitNumber] = {
-                id: habitNumber,
-                value: '',
-                submitted: false,
-                count: 0,
-            };
-            return newFail;
-        });
-        resetList((prev) => {
-            const newList = [...prev];
-            newList[habitNumber] = Array.from({ length: 66 }, (_, index) => ({
-                id: index,
-                value: index + 1 + '일차',
-            }));
-            return newList;
-        });
-        resetDate((prev) => {
-            const newDate = prev.map((item) => {
-                return { ...item };
-            });
-            newDate[habitNumber] = {
-                id: habitNumber,
-                start: '',
-                submitted: false,
-            };
-            return newDate;
+        Swal.fire({
+            title: 'Are you sure?',
+            showDenyButton: true,
+            confirmButtonText: 'Reset',
+            denyButtonText: `Cancel`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // 저장된 상태 초기화
+                resetTitle((prev) => {
+                    const newTitle = prev.map((item) => {
+                        return { ...item };
+                    });
+                    newTitle[habitNumber] = {
+                        id: habitNumber,
+                        value: '',
+                        isActive: false,
+                        submitted: false,
+                    };
+                    return newTitle;
+                });
+                resetComplete((prev) => {
+                    const newComplete = prev.map((item) => {
+                        return { ...item };
+                    });
+                    newComplete[habitNumber] = {
+                        id: habitNumber,
+                        value: '',
+                        submitted: false,
+                        count: 0,
+                    };
+                    return newComplete;
+                });
+                resetFail((prev) => {
+                    const newFail = prev.map((item) => {
+                        return { ...item };
+                    });
+                    newFail[habitNumber] = {
+                        id: habitNumber,
+                        value: '',
+                        submitted: false,
+                        count: 0,
+                    };
+                    return newFail;
+                });
+                resetList((prev) => {
+                    const newList = [...prev];
+                    newList[habitNumber] = Array.from(
+                        { length: 66 },
+                        (_, index) => ({
+                            id: index,
+                            value: index + 1 + '일차',
+                        })
+                    );
+                    return newList;
+                });
+                resetDate((prev) => {
+                    const newDate = prev.map((item) => {
+                        return { ...item };
+                    });
+                    newDate[habitNumber] = {
+                        id: habitNumber,
+                        start: '',
+                        submitted: false,
+                    };
+                    return newDate;
+                });
+                Swal.fire('Reset complete', '', 'success');
+            } else if (result.isDenied) {
+                return;
+            }
         });
     };
 
-    return (
-        <>
-            <ResetButton
-                onClick={() => {
-                    setReset((prev) => !prev);
-                }}
-            >
-                Reset
-            </ResetButton>
-            {reset ? (
-                <ResetModal>
-                    <span>Are you Sure?</span>
-                    <div>
-                        <button onClick={handleReset}>Y</button>
-                        <button
-                            onClick={() => {
-                                setReset((prev) => !prev);
-                            }}
-                        >
-                            N
-                        </button>
-                    </div>
-                </ResetModal>
-            ) : null}
-        </>
-    );
+    return <ResetButton onClick={handleReset}>Reset</ResetButton>;
 }

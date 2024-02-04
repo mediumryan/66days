@@ -86,9 +86,11 @@ export default function Title({ habitNumber }) {
                 }}
             >
                 <span>
-                    {title[habitNumber].value === ''
-                        ? 'Empty'
-                        : title[habitNumber].value}
+                    {title[habitNumber].value === 'Empty' ? (
+                        <button>추가하기</button>
+                    ) : (
+                        title[habitNumber].value
+                    )}
                 </span>
                 <button
                     onClick={() => {
