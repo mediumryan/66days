@@ -1,5 +1,7 @@
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
+import Swal from 'sweetalert2';
+// import state data
 import {
     completeState,
     dateState,
@@ -52,47 +54,108 @@ const ListButton = styled.div`
 `;
 
 export default function ListItem({ item, habitNumber }) {
-    const setList = useSetRecoilState(listState);
+    const [list, setList] = useRecoilState(listState);
     const [title, setTitle] = useRecoilState(titleState);
     // setting list date
     const [date, setDate] = useRecoilState(dateState);
     const listDate = useRecoilValue(listDateState);
     // handle complete
-    const [complete, setComplete] = useRecoilState(completeState);
+    const setComplete = useSetRecoilState(completeState);
     const handleComplete = () => {
-        if (complete[habitNumber].count < 65) {
-            setComplete((prev) => {
-                const newComplete = prev.map((item) => {
-                    return { ...item };
+        if (title[habitNumber].submitted && date[habitNumber].submitted) {
+            if (list[habitNumber].length > 1) {
+                setComplete((prev) => {
+                    const newComplete = prev.map((item) => {
+                        return { ...item };
+                    });
+                    newComplete[habitNumber].count++;
+                    return newComplete;
                 });
-                newComplete[habitNumber].count++;
-                return newComplete;
-            });
-            setList((prev) => {
-                const newList = [...prev];
-                if (newList.length > 0 && newList[habitNumber].length > 1) {
+                setList((prev) => {
+                    const newList = [...prev];
                     newList[habitNumber] = newList[habitNumber].slice(1);
-                }
-                return newList;
-            });
-        } else if (complete[habitNumber].count === 65) {
-            setComplete((prev) => {
-                const newComplete = prev.map((item) => {
-                    return { ...item };
+                    return newList;
                 });
-                newComplete[habitNumber].count++;
-                return newComplete;
-            });
-            setList((prev) => {
-                const newList = [...prev];
-                if (newList.length > 0 && newList[habitNumber].length > 1) {
-                    newList[habitNumber] = newList[habitNumber].slice(1);
-                }
-                return newList;
-            });
-            alert(`${title[habitNumber]} Project complete. Congratulation!`);
+            } else if (list[habitNumber].length === 1) {
+                Swal.fire({
+                    title: 'Congratulation!',
+                    showDenyButton: true,
+                    confirmButtonText: 'Reset',
+                    denyButtonText: `Cancel`,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // 저장된 상태 초기화
+                        setTitle((prev) => {
+                            const newTitle = prev.map((item) => {
+                                return { ...item };
+                            });
+                            newTitle[habitNumber] = {
+                                id: habitNumber,
+                                value: '',
+                                isActive: false,
+                                submitted: false,
+                            };
+                            return newTitle;
+                        });
+                        setComplete((prev) => {
+                            const newComplete = prev.map((item) => {
+                                return { ...item };
+                            });
+                            newComplete[habitNumber] = {
+                                id: habitNumber,
+                                value: '',
+                                submitted: false,
+                                count: 0,
+                            };
+                            return newComplete;
+                        });
+                        setFail((prev) => {
+                            const newFail = prev.map((item) => {
+                                return { ...item };
+                            });
+                            newFail[habitNumber] = {
+                                id: habitNumber,
+                                value: '',
+                                submitted: false,
+                                count: 0,
+                            };
+                            return newFail;
+                        });
+                        setList((prev) => {
+                            const newList = [...prev];
+                            newList[habitNumber] = Array.from(
+                                { length: 66 },
+                                (_, index) => ({
+                                    id: index,
+                                    value: index + 1 + '일차',
+                                })
+                            );
+                            return newList;
+                        });
+                        setDate((prev) => {
+                            const newDate = prev.map((item) => {
+                                return { ...item };
+                            });
+                            newDate[habitNumber] = {
+                                id: habitNumber,
+                                start: '',
+                                submitted: false,
+                            };
+                            return newDate;
+                        });
+                        Swal.fire('Reset complete', '', 'success');
+                    } else if (result.isDenied) {
+                        return;
+                    }
+                });
+            } else {
+                return;
+            }
         } else {
-            return;
+            Swal.fire({
+                title: 'Habit or Date is not defined.',
+                icon: 'warning',
+            });
         }
     };
     // handle fail
@@ -100,84 +163,110 @@ export default function ListItem({ item, habitNumber }) {
     const setFailModal = useSetRecoilState(failModalState);
     const setFailTitle = useSetRecoilState(failTitleState);
     const handleFail = () => {
-        if (fail[habitNumber].count < 2) {
-            setFail((prev) => {
-                const newFail = prev.map((item) => {
-                    return { ...item };
+        if (title[habitNumber].submitted && date[habitNumber].submitted) {
+            if (fail[habitNumber].count === 0) {
+                setFail((prev) => {
+                    const newFail = prev.map((item) => {
+                        return { ...item };
+                    });
+                    newFail[habitNumber].count++;
+                    return newFail;
                 });
-                newFail[habitNumber].count++;
-                return newFail;
-            });
-            setList((prev) => {
-                const newList = [...prev];
-                if (newList.length > 0 && newList[habitNumber].length > 1) {
-                    newList[habitNumber] = newList[habitNumber].slice(1);
-                }
-                return newList;
-            });
-        } else if (fail[habitNumber].count === 2) {
-            setFailTitle(title[habitNumber].value);
-            setTitle((prev) => {
-                const newTitle = prev.map((item) => {
-                    return { ...item };
+                setList((prev) => {
+                    const newList = [...prev];
+                    if (newList[habitNumber].length > 1) {
+                        newList[habitNumber] = newList[habitNumber].slice(1);
+                    }
+                    return newList;
                 });
-                newTitle[habitNumber] = {
-                    id: habitNumber,
-                    value: '',
-                    isActive: false,
-                    submitted: false,
-                };
-                return newTitle;
-            });
-            setComplete((prev) => {
-                const newComplete = prev.map((item) => {
-                    return { ...item };
+            } else if (fail[habitNumber].count === 1) {
+                Swal.fire({
+                    title: 'There is one chance left.',
+                    icon: 'warning',
                 });
-                newComplete[habitNumber] = {
-                    id: habitNumber,
-                    value: '',
-                    submitted: false,
-                    count: 0,
-                };
-                return newComplete;
-            });
-            setFail((prev) => {
-                const newFail = prev.map((item) => {
-                    return { ...item };
+                setFail((prev) => {
+                    const newFail = prev.map((item) => {
+                        return { ...item };
+                    });
+                    newFail[habitNumber].count++;
+                    return newFail;
                 });
-                newFail[habitNumber] = {
-                    id: habitNumber,
-                    value: '',
-                    submitted: false,
-                    count: 0,
-                };
-                return newFail;
-            });
-            setList((prev) => {
-                const newList = [...prev];
-                newList[habitNumber] = Array.from(
-                    { length: 66 },
-                    (_, index) => ({
-                        id: index,
-                        value: index + 1 + '일차',
-                    })
-                );
-                return newList;
-            });
-            setDate((prev) => {
-                const newDate = prev.map((item) => {
-                    return { ...item };
+                setList((prev) => {
+                    const newList = [...prev];
+                    if (newList[habitNumber].length === 2) {
+                        newList[habitNumber] = newList[habitNumber].slice(1);
+                    }
+                    return newList;
                 });
-                newDate[habitNumber] = {
-                    id: habitNumber,
-                    start: '',
-                    submitted: false,
-                };
-                return newDate;
-            });
-            setFailModal(true);
+            } else if (fail[habitNumber].count === 2) {
+                setFailTitle(title[habitNumber].value);
+                setTitle((prev) => {
+                    const newTitle = prev.map((item) => {
+                        return { ...item };
+                    });
+                    newTitle[habitNumber] = {
+                        id: habitNumber,
+                        value: '',
+                        isActive: false,
+                        submitted: false,
+                    };
+                    return newTitle;
+                });
+                setComplete((prev) => {
+                    const newComplete = prev.map((item) => {
+                        return { ...item };
+                    });
+                    newComplete[habitNumber] = {
+                        id: habitNumber,
+                        value: '',
+                        submitted: false,
+                        count: 0,
+                    };
+                    return newComplete;
+                });
+                setFail((prev) => {
+                    const newFail = prev.map((item) => {
+                        return { ...item };
+                    });
+                    newFail[habitNumber] = {
+                        id: habitNumber,
+                        value: '',
+                        submitted: false,
+                        count: 0,
+                    };
+                    return newFail;
+                });
+                setList((prev) => {
+                    const newList = [...prev];
+                    newList[habitNumber] = Array.from(
+                        { length: 66 },
+                        (_, index) => ({
+                            id: index,
+                            value: index + 1 + '일차',
+                        })
+                    );
+                    return newList;
+                });
+                setDate((prev) => {
+                    const newDate = prev.map((item) => {
+                        return { ...item };
+                    });
+                    newDate[habitNumber] = {
+                        id: habitNumber,
+                        start: '',
+                        submitted: false,
+                    };
+                    return newDate;
+                });
+                setFailModal(true);
+            } else {
+                return;
+            }
         } else {
-            return;
+            Swal.fire({
+                title: 'Habit or Date is not defined.',
+                icon: 'warning',
+            });
         }
     };
 
