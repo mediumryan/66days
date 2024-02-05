@@ -68,7 +68,13 @@ export const ItemContent = styled.div`
     }
 `;
 
-export const AddToItem = styled.button``;
+export const AddToItem = styled.button`
+    font-size: 1.05rem;
+    background-color: var(--primary-200);
+    color: var(--accent-100);
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+`;
 
 export const FormContents = styled.div`
     align-items: center;
@@ -93,7 +99,7 @@ export const FormContents = styled.div`
 export default function Title({ habitNumber }) {
     const [title, setTitle] = useRecoilState(titleState);
 
-    const handleTitle = () => {
+    const handleComplete = () => {
         Swal.fire({
             title: 'Habit',
             input: 'text',
@@ -122,10 +128,10 @@ export default function Title({ habitNumber }) {
             {title[habitNumber].submitted ? (
                 <ItemContent>
                     <p>{title[habitNumber].value}</p>
-                    <SlNote onClick={handleTitle} />
+                    <SlNote onClick={handleComplete} />
                 </ItemContent>
             ) : (
-                <AddToItem onClick={handleTitle}>Add to Habit</AddToItem>
+                <AddToItem onClick={handleComplete}>Add to Habit</AddToItem>
             )}
         </ItemSectionWrapper>
     );
