@@ -1,14 +1,11 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { styled } from 'styled-components';
-import {
-    completePercentState,
-    completeState,
-    dateState,
-    endDateState,
-} from '../../data/habitData';
+import { completeState, dateState, endDateState } from '../../data/habitData';
 import { useForm } from 'react-hook-form';
-import { FaPlus } from 'react-icons/fa';
+import Swal from 'sweetalert2';
+// icons
 import { SlNote } from 'react-icons/sl';
+import { AddToItem, ItemContent, ItemSectionWrapper } from '../Title/Title';
 
 const ProgressWrapper = styled.div`
     position: relative;
@@ -83,7 +80,6 @@ const End = styled(Start)``;
 
 export default function Progress({ habitNumber }) {
     const complete = useRecoilValue(completeState);
-    const completePercent = useRecoilValue(completePercentState);
     const [date, setDate] = useRecoilState(dateState);
     const end = useRecoilValue(endDateState);
     const { register, handleSubmit } = useForm();
@@ -98,55 +94,89 @@ export default function Progress({ habitNumber }) {
         });
     };
 
+    const handleDate = () => {
+        Swal.fire({
+            title: 'Start Date',
+            input: 'date',
+            didOpen: () => {
+                const today = new Date().toISOString();
+                Swal.getInput().min = today.split('T')[0];
+            },
+        }).then((result) => {
+            if (result.value) {
+                console.log(result);
+            }
+        });
+    };
+
     return (
-        <ProgressWrapper>
-            <Per>{completePercent[habitNumber]}%</Per>
+        <ItemSectionWrapper>
+            <Per>{Math.floor((complete[habitNumber].count / 66) * 100)}%</Per>
             <CompleteCount>{complete[habitNumber].count} / 66</CompleteCount>
             <ProgressBarBack>
                 <ProgressBar
-                    style={{ width: `${completePercent[habitNumber]}%` }}
+                    style={{
+                        width: `${(complete[habitNumber].count / 66) * 100}%`,
+                    }}
                 />
             </ProgressBarBack>
-            <DateValue>
-                {date[habitNumber].submitted === false ? (
-                    <form onSubmit={handleSubmit(getStartDate)}>
-                        <label>Start : </label>
-                        <input
-                            type="date"
-                            {...register('date', { required: true })}
-                        />
-                        <button>
-                            <FaPlus />
-                        </button>
-                    </form>
-                ) : null}
+            {date[habitNumber].submitted ? (
+                <ItemContent>
+                    <p>{date[habitNumber].value}</p>
+                    <SlNote onClick={handleDate} />
+                </ItemContent>
+            ) : (
+                <AddToItem onClick={handleDate}>Add to Start date</AddToItem>
+            )}
+        </ItemSectionWrapper>
+        // <ProgressWrapper>
+        //     <Per>{completePercent[habitNumber]}%</Per>
+        //     <CompleteCount>{complete[habitNumber].count} / 66</CompleteCount>
+        //     <ProgressBarBack>
+        //         <ProgressBar
+        //             style={{ width: `${completePercent[habitNumber]}%` }}
+        //         />
+        //     </ProgressBarBack>
+        //     <DateValue>
+        //         {date[habitNumber].submitted === false ? (
+        //             <form onSubmit={handleSubmit(getStartDate)}>
+        //                 <label>Start : </label>
+        //                 <input
+        //                     type="date"
+        //                     {...register('date', { required: true })}
+        //                 />
+        //                 <button>
+        //                     <FaPlus />
+        //                 </button>
+        //             </form>
+        //         ) : null}
 
-                {date[habitNumber].submitted ? (
-                    <StartEnd>
-                        <Start>
-                            <span>Start</span>
-                            <span>{date[habitNumber].start}</span>
-                        </Start>
-                        <End>
-                            <span>End</span>
-                            <span>{end[habitNumber]}</span>
-                        </End>
-                        <button
-                            onClick={() => {
-                                setDate((prev) => {
-                                    const newDate = prev.map((item) => {
-                                        return { ...item };
-                                    });
-                                    newDate[habitNumber].submitted = false;
-                                    return newDate;
-                                });
-                            }}
-                        >
-                            <SlNote />
-                        </button>
-                    </StartEnd>
-                ) : null}
-            </DateValue>
-        </ProgressWrapper>
+        //         {date[habitNumber].submitted ? (
+        //             <StartEnd>
+        //                 <Start>
+        //                     <span>Start</span>
+        //                     <span>{date[habitNumber].start}</span>
+        //                 </Start>
+        //                 <End>
+        //                     <span>End</span>
+        //                     <span>{end[habitNumber]}</span>
+        //                 </End>
+        //                 <button
+        //                     onClick={() => {
+        //                         setDate((prev) => {
+        //                             const newDate = prev.map((item) => {
+        //                                 return { ...item };
+        //                             });
+        //                             newDate[habitNumber].submitted = false;
+        //                             return newDate;
+        //                         });
+        //                     }}
+        //                 >
+        //                     <SlNote />
+        //                 </button>
+        //             </StartEnd>
+        //         ) : null}
+        //     </DateValue>
+        // </ProgressWrapper>
     );
 }

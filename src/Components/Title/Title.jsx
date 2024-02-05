@@ -99,7 +99,7 @@ export const FormContents = styled.div`
 export default function Title({ habitNumber }) {
     const [title, setTitle] = useRecoilState(titleState);
 
-    const handleComplete = () => {
+    const handleTitle = () => {
         Swal.fire({
             title: 'Habit',
             input: 'text',
@@ -128,10 +128,10 @@ export default function Title({ habitNumber }) {
             {title[habitNumber].submitted ? (
                 <ItemContent>
                     <p>{title[habitNumber].value}</p>
-                    <SlNote onClick={handleComplete} />
+                    <SlNote onClick={handleTitle} />
                 </ItemContent>
             ) : (
-                <AddToItem onClick={handleComplete}>Add to Habit</AddToItem>
+                <AddToItem onClick={handleTitle}>Add to Habit</AddToItem>
             )}
         </ItemSectionWrapper>
     );

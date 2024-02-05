@@ -10,7 +10,7 @@ import { AddToItem, ItemContent, ItemSectionWrapper } from '../Title/Title';
 export default function Complete({ habitNumber }) {
     const [complete, setComplete] = useRecoilState(completeState);
 
-    const handleTitle = () => {
+    const handleComplete = () => {
         Swal.fire({
             title: 'Reward',
             input: 'text',
@@ -39,10 +39,10 @@ export default function Complete({ habitNumber }) {
             {complete[habitNumber].submitted ? (
                 <ItemContent>
                     <p>{complete[habitNumber].value}</p>
-                    <SlNote onClick={handleTitle} />
+                    <SlNote onClick={handleComplete} />
                 </ItemContent>
             ) : (
-                <AddToItem onClick={handleTitle}>Add to reward</AddToItem>
+                <AddToItem onClick={handleComplete}>Add to reward</AddToItem>
             )}
         </ItemSectionWrapper>
     );

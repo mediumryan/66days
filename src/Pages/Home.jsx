@@ -1,7 +1,6 @@
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { PageWrapper } from './Habit';
 import {
-    completePercentState,
     completeState,
     dateState,
     endDateState,
@@ -136,7 +135,6 @@ export default function Home() {
     const [title, setTitle] = useRecoilState(titleState);
     const setDate = useSetRecoilState(dateState);
     const end = useRecoilValue(endDateState);
-    const completePer = useRecoilValue(completePercentState);
     const [complete, setComplete] = useRecoilState(completeState);
     const [fail, setFail] = useRecoilState(failState);
     const setList = useSetRecoilState(listState);
@@ -327,7 +325,10 @@ export default function Home() {
                                 <ProgressBarBack>
                                     <ProgressBar
                                         style={{
-                                            width: `${completePer[index]}%`,
+                                            width: `${
+                                                (complete[index].count / 66) *
+                                                100
+                                            }%`,
                                         }}
                                     />
                                 </ProgressBarBack>
@@ -338,7 +339,12 @@ export default function Home() {
                                         ? 'Empty'
                                         : `${end[index]} End`}
                                 </span>
-                                <span>{completePer[index]}%</span>
+                                <span>
+                                    {Math.floor(
+                                        (complete[index].count / 66) * 100
+                                    )}
+                                    %
+                                </span>
                             </HomeFigure>
                             <HomeButtons>
                                 <button

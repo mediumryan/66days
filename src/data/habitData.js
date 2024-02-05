@@ -3,8 +3,7 @@ import { recoilPersist } from 'recoil-persist';
 
 const { persistAtom } = recoilPersist();
 
-// about user name
-
+// user name
 export const userNameState = atom({
     key: 'user_name',
     default: {
@@ -14,45 +13,40 @@ export const userNameState = atom({
     effects_UNSTABLE: [persistAtom],
 });
 
-// about habit
-
+// title
 export const titleState = atom({
     key: 'title_state',
     default: [
         {
             id: 0,
             value: '',
-            isActive: true,
             submitted: false,
         },
         {
             id: 1,
             value: '',
-            isActive: false,
             submitted: false,
         },
         {
             id: 2,
             value: '',
-            isActive: false,
             submitted: false,
         },
         {
             id: 3,
             value: '',
-            isActive: false,
             submitted: false,
         },
         {
             id: 4,
             value: '',
-            isActive: false,
             submitted: false,
         },
     ],
     effects_UNSTABLE: [persistAtom],
 });
 
+// complete
 export const completeState = atom({
     key: 'complete_state',
     default: [
@@ -87,18 +81,6 @@ export const completeState = atom({
             count: 0,
         },
     ],
-    effects_UNSTABLE: [persistAtom],
-});
-
-export const completePercentState = selector({
-    key: 'complete_percent',
-    get: ({ get }) => {
-        const complete = get(completeState);
-        const percentArr = complete.map((item) => {
-            return Math.floor((item.count / 66) * 100);
-        });
-        return percentArr;
-    },
     effects_UNSTABLE: [persistAtom],
 });
 
