@@ -12,7 +12,7 @@ import {
     userNameState,
 } from '../data/habitData';
 import { styled } from 'styled-components';
-import { ProgressBarBack, ProgressBar } from '../Components/Progress/Progress';
+import { BackProgressBar, ProgressBar } from '../Components/Progress/Progress';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { SlNote } from 'react-icons/sl';
@@ -133,7 +133,7 @@ const HomeButtons = styled.div`
 
 export default function Home() {
     const [title, setTitle] = useRecoilState(titleState);
-    const setDate = useSetRecoilState(dateState);
+    const [date, setDate] = useRecoilState(dateState);
     const end = useRecoilValue(endDateState);
     const [complete, setComplete] = useRecoilState(completeState);
     const [fail, setFail] = useRecoilState(failState);
@@ -322,7 +322,7 @@ export default function Home() {
                                 <Link to={`/habit/${index}`}>Go</Link>
                             </HomeTitle>
                             <HomeProgress>
-                                <ProgressBarBack>
+                                <BackProgressBar>
                                     <ProgressBar
                                         style={{
                                             width: `${
@@ -331,13 +331,17 @@ export default function Home() {
                                             }%`,
                                         }}
                                     />
-                                </ProgressBarBack>
+                                </BackProgressBar>
                             </HomeProgress>
                             <HomeFigure>
                                 <span>
-                                    {end[index] === undefined
-                                        ? 'Empty'
-                                        : `${end[index]} End`}
+                                    {date[index].submitted
+                                        ? `${
+                                              end[index]
+                                                  .toISOString()
+                                                  .split('T')[0]
+                                          } End`
+                                        : 'undefined'}
                                 </span>
                                 <span>
                                     {Math.floor(

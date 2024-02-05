@@ -201,28 +201,20 @@ export const dateState = atom({
 export const listDateState = selector({
     key: 'list_date_state',
     get: ({ get }) => {
-        const date = get(dateState);
-        const copy = date.map((item) => {
-            return { ...item };
-        });
+        const dates = get(dateState);
 
-        const resultArray = [];
-
-        for (const copyItem of copy) {
-            if (copyItem.start !== '') {
-                let startDate = new Date(copyItem.start);
-                const newArr = Array.from({ length: 66 }, (_, index) => {
+        return dates.map((date) => {
+            if (date.start !== '') {
+                const startDate = new Date(date.start);
+                return Array.from({ length: 66 }, (_, index) => {
                     const newDate = new Date(startDate);
                     newDate.setDate(startDate.getDate() + index);
                     return newDate.toLocaleDateString('ko-KR');
                 });
-                resultArray.push(newArr);
             } else {
-                resultArray.push(undefined);
+                return undefined;
             }
-        }
-
-        return resultArray;
+        });
     },
     effects_UNSTABLE: [persistAtom],
 });
@@ -230,31 +222,13 @@ export const listDateState = selector({
 export const endDateState = selector({
     key: 'end_date_state',
     get: ({ get }) => {
-        const date = get(dateState);
-        const copy = date.map((item) => {
-            return { ...item };
+        const startArr = get(dateState);
+        return startArr.map((item) => {
+            const startDate = new Date(item.start);
+            const endDate = new Date(startDate);
+            endDate.setDate(startDate.getDate() + 66);
+            return endDate;
         });
-
-        const resultArray = [];
-
-        for (const copyItem of copy) {
-            if (copyItem.start !== '') {
-                let startDate = new Date(copyItem.start);
-                const newDate = new Date(startDate);
-                newDate.setDate(startDate.getDate() + 66);
-                resultArray.push(newDate.toLocaleDateString('ko-KR'));
-            } else {
-                resultArray.push(undefined);
-            }
-        }
-
-        return resultArray;
     },
     effects_UNSTABLE: [persistAtom],
-});
-
-// reset
-export const resetState = atom({
-    key: 'reset_state',
-    default: false,
 });

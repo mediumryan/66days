@@ -7,19 +7,6 @@ import Swal from 'sweetalert2';
 import { SlNote } from 'react-icons/sl';
 import { AddToItem, ItemContent, ItemSectionWrapper } from '../Title/Title';
 
-const ProgressWrapper = styled.div`
-    position: relative;
-    background-color: var(--bg-200);
-    color: var(--text-200);
-    font-size: var(--font-size-micro);
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: var(--padding-double-large);
-    border-radius: 20px;
-`;
-
 const Per = styled.span`
     position: absolute;
     top: 10%;
@@ -27,9 +14,7 @@ const Per = styled.span`
     color: var(--primary-200);
 `;
 
-const CompleteCount = styled.span``;
-
-export const ProgressBarBack = styled.div`
+export const BackProgressBar = styled.div`
     background-color: var(--bg-300);
     border-radius: 8px;
     width: 100%;
@@ -42,41 +27,6 @@ export const ProgressBar = styled.div`
     background-color: var(--primary-200);
     height: 100%;
 `;
-
-const DateValue = styled.span`
-    form {
-        display: flex;
-        align-items: center;
-        input {
-            margin: 0 var(--margin-small);
-        }
-    }
-`;
-
-const StartEnd = styled.div`
-    position: relative;
-    button {
-        position: absolute;
-        top: 50%;
-        right: -50%;
-        transform: translateY(-50%);
-        font-size: var(--font-size-medium);
-        color: var(--primary-100);
-    }
-`;
-
-const Start = styled.div`
-    margin: var(--margin-medium) 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    span:first-child {
-        margin-bottom: var(--margin-small);
-        color: var(--accent-200);
-    }
-`;
-
-const End = styled(Start)``;
 
 export default function Progress({ habitNumber }) {
     const complete = useRecoilValue(completeState);
@@ -104,7 +54,14 @@ export default function Progress({ habitNumber }) {
             },
         }).then((result) => {
             if (result.value) {
-                console.log(result);
+                setDate((prev) => {
+                    const newDate = prev.map((item) => {
+                        return { ...item };
+                    });
+                    newDate[habitNumber].start = result.value;
+                    newDate[habitNumber].submitted = true;
+                    return newDate;
+                });
             }
         });
     };
@@ -112,71 +69,25 @@ export default function Progress({ habitNumber }) {
     return (
         <ItemSectionWrapper>
             <Per>{Math.floor((complete[habitNumber].count / 66) * 100)}%</Per>
-            <CompleteCount>{complete[habitNumber].count} / 66</CompleteCount>
-            <ProgressBarBack>
+            <span>{complete[habitNumber].count} / 66</span>
+            <BackProgressBar>
                 <ProgressBar
                     style={{
                         width: `${(complete[habitNumber].count / 66) * 100}%`,
                     }}
                 />
-            </ProgressBarBack>
+            </BackProgressBar>
             {date[habitNumber].submitted ? (
                 <ItemContent>
-                    <p>{date[habitNumber].value}</p>
+                    <p style={{ fontSize: '0.75rem' }}>
+                        {date[habitNumber].start} ~
+                        {end[habitNumber].toISOString().split('T')[0]}
+                    </p>
                     <SlNote onClick={handleDate} />
                 </ItemContent>
             ) : (
                 <AddToItem onClick={handleDate}>Add to Start date</AddToItem>
             )}
         </ItemSectionWrapper>
-        // <ProgressWrapper>
-        //     <Per>{completePercent[habitNumber]}%</Per>
-        //     <CompleteCount>{complete[habitNumber].count} / 66</CompleteCount>
-        //     <ProgressBarBack>
-        //         <ProgressBar
-        //             style={{ width: `${completePercent[habitNumber]}%` }}
-        //         />
-        //     </ProgressBarBack>
-        //     <DateValue>
-        //         {date[habitNumber].submitted === false ? (
-        //             <form onSubmit={handleSubmit(getStartDate)}>
-        //                 <label>Start : </label>
-        //                 <input
-        //                     type="date"
-        //                     {...register('date', { required: true })}
-        //                 />
-        //                 <button>
-        //                     <FaPlus />
-        //                 </button>
-        //             </form>
-        //         ) : null}
-
-        //         {date[habitNumber].submitted ? (
-        //             <StartEnd>
-        //                 <Start>
-        //                     <span>Start</span>
-        //                     <span>{date[habitNumber].start}</span>
-        //                 </Start>
-        //                 <End>
-        //                     <span>End</span>
-        //                     <span>{end[habitNumber]}</span>
-        //                 </End>
-        //                 <button
-        //                     onClick={() => {
-        //                         setDate((prev) => {
-        //                             const newDate = prev.map((item) => {
-        //                                 return { ...item };
-        //                             });
-        //                             newDate[habitNumber].submitted = false;
-        //                             return newDate;
-        //                         });
-        //                     }}
-        //                 >
-        //                     <SlNote />
-        //                 </button>
-        //             </StartEnd>
-        //         ) : null}
-        //     </DateValue>
-        // </ProgressWrapper>
     );
 }
