@@ -23,16 +23,20 @@ const ListItemContainer = styled.div`
     border-bottom: 1px solid var(--accent-100);
 `;
 
-const ListTitle = styled.span``;
+const ListTitle = styled.span`
+    font-weight: 700;
+`;
 
 const ListDate = styled.span`
     font-size: calc(var(--font-size-micro) * 0.75);
     margin: var(--margin-small) 0;
+    margin: 0.75rem 0;
 `;
 
 const ListButton = styled.div`
     display: flex;
     align-items: center;
+    padding-bottom: 0.5rem;
     button {
         font-size: var(--font-size-micro);
         color: var(--accent-100);
@@ -182,11 +186,11 @@ export default function ListItem({ item, habitNumber }) {
             <ListTitle>
                 {title[habitNumber].value !== ''
                     ? `${title[habitNumber].value} ${item.value}`
-                    : 'Title is not defined'}
+                    : 'Empty'}
             </ListTitle>
             <ListDate>
                 {date[habitNumber].start === ''
-                    ? 'Start date is not defined'
+                    ? 'Undefined'
                     : listDate[habitNumber][item.id]}
             </ListDate>
             <ListButton>

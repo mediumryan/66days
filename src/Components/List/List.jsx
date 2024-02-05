@@ -6,7 +6,7 @@ import { listState } from '../../data/habitData';
 const ListWrapper = styled.div`
     width: 100%;
     background-color: var(--bg-200);
-    padding: var(--padding-double-medium);
+    padding: 2rem;
     border-radius: 20px;
 `;
 

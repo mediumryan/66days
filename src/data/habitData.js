@@ -21,31 +21,31 @@ export const titleState = atom({
     default: [
         {
             id: 0,
-            value: 'Empty',
+            value: '',
             isActive: true,
             submitted: false,
         },
         {
             id: 1,
-            value: 'Empty',
+            value: '',
             isActive: false,
             submitted: false,
         },
         {
             id: 2,
-            value: 'Empty',
+            value: '',
             isActive: false,
             submitted: false,
         },
         {
             id: 3,
-            value: 'Empty',
+            value: '',
             isActive: false,
             submitted: false,
         },
         {
             id: 4,
-            value: 'Empty',
+            value: '',
             isActive: false,
             submitted: false,
         },

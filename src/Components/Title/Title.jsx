@@ -1,10 +1,9 @@
 import { styled } from 'styled-components';
 import { titleState } from '../../data/habitData';
 import { useRecoilState } from 'recoil';
-import { useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
 // icons
 import { SlNote } from 'react-icons/sl';
-import { FaPlus } from 'react-icons/fa';
 
 export const FormWrapper = styled.form`
     background-color: var(--bg-200);
@@ -41,6 +40,36 @@ export const FormText = styled.div`
     }
 `;
 
+export const ItemSectionWrapper = styled.div`
+    background-color: var(--bg-200);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    padding: var(--padding-double-medium);
+`;
+
+export const ItemContent = styled.div`
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    p {
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
+    svg {
+        position: absolute;
+        right: 4px;
+        color: var(--primary-200);
+    }
+`;
+
+export const AddToItem = styled.button``;
+
 export const FormContents = styled.div`
     align-items: center;
     input {
@@ -62,62 +91,42 @@ export const FormContents = styled.div`
 `;
 
 export default function Title({ habitNumber }) {
-    const { register, handleSubmit, setValue } = useForm();
     const [title, setTitle] = useRecoilState(titleState);
 
-    const getValue = (data) => {
-        setTitle((prev) => {
-            const newTitle = prev.map((item) => {
-                return { ...item };
-            });
-            newTitle[habitNumber].value = data.title;
-            newTitle[habitNumber].submitted = true;
-            console.log(newTitle);
-            return newTitle;
+    const handleTitle = () => {
+        Swal.fire({
+            title: 'Habit',
+            input: 'text',
+            showCancelButton: true,
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'You need to write something!';
+                }
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setTitle((prev) => {
+                    const newTitle = prev.map((item) => {
+                        return { ...item };
+                    });
+                    newTitle[habitNumber].value = result.value;
+                    newTitle[habitNumber].submitted = true;
+                    return newTitle;
+                });
+            }
         });
-        setValue('title', '');
     };
 
     return (
-        <FormWrapper onSubmit={handleSubmit(getValue)}>
-            <FormText
-                style={{
-                    display: title[habitNumber].submitted ? 'flex' : 'none',
-                }}
-            >
-                <span>
-                    {title[habitNumber].value === 'Empty' ? (
-                        <button>추가하기</button>
-                    ) : (
-                        title[habitNumber].value
-                    )}
-                </span>
-                <button
-                    onClick={() => {
-                        setTitle((prev) => {
-                            const newTitle = prev.map((item) => {
-                                return { ...item };
-                            });
-                            newTitle[habitNumber].submitted = false;
-                            return newTitle;
-                        });
-                    }}
-                >
-                    <SlNote />
-                </button>
-            </FormText>
-            <FormContents
-                style={{
-                    display: title[habitNumber].submitted ? 'none' : 'flex',
-                }}
-            >
-                <input
-                    {...register('title', { required: true, maxLength: 25 })}
-                />
-                <button>
-                    <FaPlus />
-                </button>
-            </FormContents>
-        </FormWrapper>
+        <ItemSectionWrapper>
+            {title[habitNumber].submitted ? (
+                <ItemContent>
+                    <p>{title[habitNumber].value}</p>
+                    <SlNote onClick={handleTitle} />
+                </ItemContent>
+            ) : (
+                <AddToItem onClick={handleTitle}>Add to Habit</AddToItem>
+            )}
+        </ItemSectionWrapper>
     );
 }

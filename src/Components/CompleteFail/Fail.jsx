@@ -7,9 +7,7 @@ import { FaPlus } from 'react-icons/fa';
 import { styled } from 'styled-components';
 import { failState } from '../../data/habitData';
 
-const FailWrapper = styled(FormWrapper)`
-    margin-bottom: var(--margin-large);
-`;
+const FailWrapper = styled(FormWrapper)``;
 
 const CompleteText = styled(FormText)``;
 
