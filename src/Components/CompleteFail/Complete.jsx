@@ -1,66 +1,49 @@
-import { completeState } from '../../data/habitData';
-import { FormContents, FormText, FormWrapper } from '../Title/Title';
 import { useRecoilState } from 'recoil';
-import { useForm } from 'react-hook-form';
-// icons
+import Swal from 'sweetalert2';
+// import state data
+import { completeState } from '../../data/habitData';
+// import icons
 import { SlNote } from 'react-icons/sl';
-import { FaPlus } from 'react-icons/fa';
-import { styled } from 'styled-components';
-
-const CompleteText = styled(FormText)``;
-
-const CompleteForm = styled(FormContents)``;
+// import components
+import { AddToItem, ItemContent, ItemSectionWrapper } from '../Title/Title';
 
 export default function Complete({ habitNumber }) {
-    const { register, handleSubmit, setValue } = useForm();
     const [complete, setComplete] = useRecoilState(completeState);
 
-    const getValue = (data) => {
-        setComplete((prev) => {
-            const newComplete = prev.map((item) => {
-                return { ...item };
-            });
-            newComplete[habitNumber].value = data.complete;
-            newComplete[habitNumber].submitted = true;
-            return newComplete;
+    const handleTitle = () => {
+        Swal.fire({
+            title: 'Reward',
+            input: 'text',
+            showCancelButton: true,
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'You need to write something!';
+                }
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setComplete((prev) => {
+                    const newComplete = prev.map((item) => {
+                        return { ...item };
+                    });
+                    newComplete[habitNumber].value = result.value;
+                    newComplete[habitNumber].submitted = true;
+                    return newComplete;
+                });
+            }
         });
-        setValue('complete', '');
     };
 
     return (
-        <FormWrapper onSubmit={handleSubmit(getValue)}>
-            <CompleteText
-                style={{
-                    display: complete[habitNumber].submitted ? 'flex' : 'none',
-                }}
-            >
-                <span>{complete[habitNumber].value}</span>
-                <button
-                    onClick={() => {
-                        setComplete((prev) => {
-                            const newComplete = prev.map((item) => {
-                                return { ...item };
-                            });
-                            newComplete[habitNumber].submitted = false;
-                            return newComplete;
-                        });
-                    }}
-                >
-                    <SlNote />
-                </button>
-            </CompleteText>
-            <CompleteForm
-                style={{
-                    display: complete[habitNumber].submitted ? 'none' : 'flex',
-                }}
-            >
-                <input
-                    {...register('complete', { required: true, maxLength: 25 })}
-                />
-                <button>
-                    <FaPlus />
-                </button>
-            </CompleteForm>
-        </FormWrapper>
+        <ItemSectionWrapper>
+            {complete[habitNumber].submitted ? (
+                <ItemContent>
+                    <p>{complete[habitNumber].value}</p>
+                    <SlNote onClick={handleTitle} />
+                </ItemContent>
+            ) : (
+                <AddToItem onClick={handleTitle}>Add to reward</AddToItem>
+            )}
+        </ItemSectionWrapper>
     );
 }

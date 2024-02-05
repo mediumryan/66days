@@ -58,7 +58,7 @@ export const ItemContent = styled.div`
     align-items: center;
     justify-content: center;
     p {
-        font-size: 0.85rem;
+        font-size: 1.05rem;
         font-weight: 700;
     }
     svg {
