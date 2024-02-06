@@ -49,6 +49,11 @@
     font-style: normal;
 }
 
+html,
+body {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'GmarketSansMedium';
 }
