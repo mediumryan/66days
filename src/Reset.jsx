@@ -13,13 +13,14 @@ import {
 const ResetButton = styled.button`
     position: absolute;
     top: 2%;
-    right: 2%;
+    right: 4%;
     font-size: var(--font-size-micro);
     font-weight: 800;
     color: var(--accent-100);
     border: 2px solid var(--accent-100);
     border-radius: 4px;
     padding: 2px 4px;
+    transition: 300ms all;
     &:hover {
         color: var(--primary-200);
         border: 2px solid var(--primary-200);
