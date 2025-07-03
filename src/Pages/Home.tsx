@@ -202,21 +202,52 @@ export default function Home() {
     setValue('user', '');
   };
 
+  const shiftList = (listIndex: number) => {
+    if (listIndex !== -1) {
+      const newList = structuredClone(list);
+      let targetList = newList[listIndex].list;
+      const target = targetList[0];
+      target.isDone = true;
+      targetList.shift();
+      targetList.push(target);
+      setList(newList);
+    }
+  };
+
+  const displayWarning = (date: string) => {
+    const toDay = new Date().toISOString().split('T')[0];
+
+    if (toDay !== date) {
+      Swal.fire({
+        title: 'Umm,,',
+        text: "You only can complete / fail today's habit.",
+        icon: 'warning',
+        confirmButtonText: 'OK',
+      });
+      return true;
+    }
+    return false;
+  };
+
   // handle complete
   const handleComplete = (habit: HabitType) => {
     let newHabits = habits.map((item) => {
       return { ...item };
     });
     const itemIndex = newHabits.findIndex((item) => item.id === habit.id);
+
+    if (displayWarning(list[itemIndex].list[0].date)) return;
+
     newHabits[itemIndex].completeCnt += 1;
     if (habit.completeCnt + habit.failCnt + 1 === 66) {
       newHabits[itemIndex].isDone = true;
-      setHabits(newHabits);
-      alert(`${habit.title} Project complete. Congratulation!`);
-      return;
-    }
 
+      alert(`${habit.title} Project complete. Congratulation!`);
+    }
     setHabits(newHabits);
+
+    shiftList(itemIndex);
+    return;
   };
 
   // handle fail
@@ -225,6 +256,9 @@ export default function Home() {
       return { ...item };
     });
     const itemIndex = newHabits.findIndex((item) => item.id === habit.id);
+
+    if (displayWarning(list[itemIndex].list[0].date)) return;
+
     newHabits[itemIndex].failCnt += 1;
     if (newHabits[itemIndex].failCnt === 3) {
       setFailTitle(habit.title);
@@ -232,6 +266,9 @@ export default function Home() {
       setFailModal(true);
     }
     setHabits(newHabits);
+
+    shiftList(itemIndex);
+    return;
   };
 
   const setButtonDisabled = (habit: HabitType) => {
@@ -329,13 +366,6 @@ export default function Home() {
 
     setHabits(updatedHabits);
   }, []);
-
-  useEffect(() => {
-    console.log(habits);
-    console.log(habits);
-    console.log(habits);
-    console.log(habits);
-  }, [habits]);
 
   return (
     <PageWrapper>
