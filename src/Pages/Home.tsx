@@ -6,6 +6,7 @@ import {
   habitState,
   HabitType,
   listState,
+  ListType,
   userNameState,
 } from '../data/habitData';
 import { styled } from 'styled-components';
@@ -14,6 +15,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { SlNote } from 'react-icons/sl';
 import { FaLocationArrow, FaPlusCircle } from 'react-icons/fa';
 import Swal from 'sweetalert2';
+import { useEffect } from 'react';
 
 type InputType = {
   user: string;
@@ -181,6 +183,8 @@ export default function Home() {
   const setFailModal = useSetRecoilState(failModalState);
   const setFailTitle = useSetRecoilState(failTitleState);
 
+  const [list, setList] = useRecoilState(listState);
+
   // handle user name
   const { register, setValue, handleSubmit } = useForm<InputType>();
   const [user, setUser] = useRecoilState(userNameState);
@@ -205,7 +209,7 @@ export default function Home() {
     });
     const itemIndex = newHabits.findIndex((item) => item.id === habit.id);
     newHabits[itemIndex].completeCnt += 1;
-    if (habit.completeCnt + habit.fileCnt + 1 === 66) {
+    if (habit.completeCnt + habit.failCnt + 1 === 66) {
       newHabits[itemIndex].isDone = true;
       setHabits(newHabits);
       alert(`${habit.title} Project complete. Congratulation!`);
@@ -221,8 +225,8 @@ export default function Home() {
       return { ...item };
     });
     const itemIndex = newHabits.findIndex((item) => item.id === habit.id);
-    newHabits[itemIndex].fileCnt += 1;
-    if (newHabits[itemIndex].fileCnt === 3) {
+    newHabits[itemIndex].failCnt += 1;
+    if (newHabits[itemIndex].failCnt === 3) {
       setFailTitle(habit.title);
       newHabits[itemIndex].isDone = true;
       setFailModal(true);
@@ -256,7 +260,7 @@ export default function Home() {
         start: '',
         end: '',
         completeCnt: 0,
-        fileCnt: 0,
+        failCnt: 0,
         isDone: false,
       };
       return [...prev, newHabit];
@@ -268,11 +272,70 @@ export default function Home() {
         list: Array.from({ length: 66 }, (_, index) => ({
           id: `${id}-${index}`,
           value: index,
+          date: '',
+          isDone: false,
         })),
       });
       return newList;
     });
   };
+
+  useEffect(() => {
+    const todayStr = new Date().toISOString().split('T')[0];
+    const updatedFailCounts: Record<string, number> = {};
+
+    // list 상태 업데이트
+    const updatedLists = list.map((habitList) => {
+      const newList: ListType[] = [];
+      const failedItems: ListType[] = [];
+
+      habitList.list.forEach((item) => {
+        // 실패 조건: 과거 날짜 + 완료되지 않음
+        if (!item.isDone && item.date < todayStr) {
+          updatedFailCounts[habitList.id] =
+            (updatedFailCounts[habitList.id] || 0) + 1;
+
+          // 실패 처리된 항목은 맨 뒤로 보내기 위해 따로 저장
+          failedItems.push({ ...item, isDone: true });
+        } else {
+          newList.push(item);
+        }
+      });
+
+      return {
+        ...habitList,
+        list: [...newList, ...failedItems], // 실패 항목을 뒤로 이동
+      };
+    });
+
+    setList(updatedLists);
+
+    // habits 상태 업데이트
+    const updatedHabits = habits.map((habit) => {
+      const addFails = updatedFailCounts[habit.id] || 0;
+      const newFailCnt = habit.failCnt + addFails;
+      const isHabitDone = newFailCnt >= 3;
+
+      if (addFails > 0 || isHabitDone) {
+        return {
+          ...habit,
+          failCnt: newFailCnt,
+          isDone: isHabitDone ? true : habit.isDone,
+        };
+      }
+
+      return habit;
+    });
+
+    setHabits(updatedHabits);
+  }, []);
+
+  useEffect(() => {
+    console.log(habits);
+    console.log(habits);
+    console.log(habits);
+    console.log(habits);
+  }, [habits]);
 
   return (
     <PageWrapper>
@@ -327,7 +390,7 @@ export default function Home() {
                   <ProgressBar
                     style={{
                       width: `${Math.trunc(
-                        ((item.completeCnt + item.fileCnt) / 66) * 100
+                        ((item.completeCnt + item.failCnt) / 66) * 100
                       )}%`,
                     }}
                   />
@@ -340,7 +403,7 @@ export default function Home() {
                     : ''}
                 </span>
                 <span>
-                  {Math.trunc(((item.completeCnt + item.fileCnt) / 66) * 100)}%
+                  {Math.trunc(((item.completeCnt + item.failCnt) / 66) * 100)}%
                 </span>
               </HomeFigure>
               <HomeButtons>
@@ -358,10 +421,10 @@ export default function Home() {
                   }}
                   disabled={setButtonDisabled(item)}
                   style={{
-                    backgroundColor: item.fileCnt === 2 ? '#FF4D4D' : '#61398f',
+                    backgroundColor: item.failCnt === 2 ? '#FF4D4D' : '#61398f',
                   }}
                 >
-                  Fail ({item.fileCnt})
+                  Fail ({item.failCnt})
                 </button>
               </HomeButtons>
             </HomeItem>

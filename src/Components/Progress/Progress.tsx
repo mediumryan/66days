@@ -1,10 +1,10 @@
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 import Swal from 'sweetalert2';
 // icons
 import { SlNote } from 'react-icons/sl';
 import { AddToItem, ItemContent, ItemSectionWrapper } from '../Title/Title';
-import { habitState, HabitType } from '../../data/habitData';
+import { habitState, HabitType, listState } from '../../data/habitData';
 
 interface ProgressProps {
   habit: HabitType;
@@ -25,7 +25,8 @@ export const ProgressBar = styled.div`
 `;
 
 export default function Progress({ habit }: ProgressProps) {
-  const [habits, setHabits] = useRecoilState(habitState);
+  const setHabits = useSetRecoilState(habitState);
+  const setLists = useSetRecoilState(listState);
 
   const handleDate = () => {
     Swal.fire({
@@ -35,7 +36,7 @@ export default function Progress({ habit }: ProgressProps) {
         const input = Swal.getInput();
         if (input) {
           const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-          input.min = today;
+          // input.min = today;
         }
       },
     }).then((result) => {
@@ -53,6 +54,8 @@ export default function Progress({ habit }: ProgressProps) {
         const dd = String(resultDate.getDate()).padStart(2, '0');
 
         const end = `${yyyy}-${mm}-${dd}`;
+
+        // habits 업데이트
         setHabits((prev) => {
           const updatedHabits = prev.map((h) => {
             if (h.id === habit.id) {
@@ -62,6 +65,23 @@ export default function Progress({ habit }: ProgressProps) {
           });
           return updatedHabits;
         });
+
+        // lists 업데이트
+        setLists((prev) =>
+          prev.map((listItem) => {
+            if (listItem.id !== habit.id) return listItem;
+
+            const newList = listItem.list.map((item) => {
+              const itemDate = new Date(baseDate);
+              itemDate.setDate(itemDate.getDate() + item.value);
+
+              const dateStr = itemDate.toISOString().split('T')[0]; // YYYY-MM-DD
+              return { ...item, date: dateStr };
+            });
+
+            return { ...listItem, list: newList };
+          })
+        );
       }
     });
   };
@@ -69,16 +89,16 @@ export default function Progress({ habit }: ProgressProps) {
   return (
     <ItemSectionWrapper>
       <div>
-        <span>{habit.completeCnt + habit.fileCnt} / 66</span>
+        <span>{habit.completeCnt + habit.failCnt} / 66</span>
         <span>
-          {Math.trunc(((habit.completeCnt + habit.fileCnt) / 66) * 100)}%
+          {Math.trunc(((habit.completeCnt + habit.failCnt) / 66) * 100)}%
         </span>
       </div>
       <BackProgressBar>
         <ProgressBar
           style={{
             width: `${Math.trunc(
-              Math.trunc(((habit.completeCnt + habit.fileCnt) / 66) * 100)
+              Math.trunc(((habit.completeCnt + habit.failCnt) / 66) * 100)
             )}%`,
           }}
         />

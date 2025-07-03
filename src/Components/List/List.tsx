@@ -19,9 +19,6 @@ export default function List({ habitId }: ListProps) {
   const lists = useRecoilValue(listState);
   const list = lists.filter((item) => item.id === habitId)[0]?.list || [];
 
-  useEffect(() => {
-    console.log('List updated:', list);
-  }, [habitId, lists]);
   return (
     <ListWrapper>
       {list.map((item) => {

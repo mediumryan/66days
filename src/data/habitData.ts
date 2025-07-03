@@ -14,7 +14,7 @@ export type HabitType = {
   start: string;
   end: string;
   completeCnt: number;
-  fileCnt: number;
+  failCnt: number;
   isDone: boolean;
 };
 
@@ -26,6 +26,8 @@ export type HabitListType = {
 export type ListType = {
   id: string;
   value: number;
+  date: string;
+  isDone: boolean;
 };
 
 // user name
@@ -49,7 +51,7 @@ export const habitState = atom<HabitType[]>({
       start: '',
       end: '',
       completeCnt: 0,
-      fileCnt: 0,
+      failCnt: 0,
       isDone: false,
     },
   ],
@@ -57,20 +59,22 @@ export const habitState = atom<HabitType[]>({
 });
 
 // 동적으로 리스트 생성
-const createDefaultHabitList = (prefix: string): HabitListType[] => [
-  {
+const createDefaultHabitList = (prefix: string): HabitListType => {
+  return {
     id: prefix,
     list: Array.from({ length: 66 }, (_, index) => ({
       id: `${prefix}-${index}`,
       value: index,
+      date: '',
+      isDone: false,
     })),
-  },
-];
+  };
+};
 
 // 리스트 상태값
 export const listState = atom<HabitListType[]>({
   key: 'list_item',
-  default: createDefaultHabitList('test'),
+  default: [createDefaultHabitList('test')],
 
   effects_UNSTABLE: [persistAtom],
 });
